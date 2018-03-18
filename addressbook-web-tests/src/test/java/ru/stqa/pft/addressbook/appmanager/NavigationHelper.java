@@ -11,8 +11,13 @@ public class NavigationHelper extends HelperBase {
     super(wd);
   }
 
-  // Выбор пункта меню "groups"
+  // Выбор пункта меню "groups" для создания новой группы контактов
   public void gotoGroupPage() {
     click(By.linkText("groups"));
+  }
+
+  // Выбор пункта меню "add new" для создания нового контакта
+  public void gotoContactPage() {
+    click(By.linkText("add new"));
   }
 }
