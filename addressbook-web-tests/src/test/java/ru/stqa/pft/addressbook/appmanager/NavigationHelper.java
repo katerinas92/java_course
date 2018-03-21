@@ -16,6 +16,11 @@ public class NavigationHelper extends HelperBase {
     click(By.linkText("groups"));
   }
 
+  // Выбор пункта меню "home"
+  public void goToHomePage() {
+    click(By.linkText("home"));
+  }
+
   // Выбор пункта меню "add new" для создания нового контакта
   public void gotoContactPage() {
     click(By.linkText("add new"));
