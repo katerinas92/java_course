@@ -1,13 +1,13 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
 
 // класс, который помогает работать с контактами
 public class ContactHelper extends HelperBase {
 
-  public ContactHelper(FirefoxDriver wd) {
+  public ContactHelper(WebDriver wd) {
     // обращение к конструктору базового класса
     super(wd);
   }
