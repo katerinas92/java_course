@@ -18,8 +18,13 @@ public class HelperBase {
   protected void type(By locator, String text) {
     click(locator);
     if (text != null) {
-      wd.findElement(locator).clear();
-      wd.findElement(locator).sendKeys(text);
+      // получаем значение поля ввода
+      String existingText = wd.findElement(locator).getAttribute("value");
+      // сравниваем значения; если текст не совпадает с уже заполненным полем
+      if (! text.equals(existingText)) {
+        wd.findElement(locator).clear();
+        wd.findElement(locator).sendKeys(text);
+      }
     }
   }
 
