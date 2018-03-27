@@ -1,7 +1,6 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -78,5 +77,21 @@ public class ContactHelper extends HelperBase {
   // метод выполняющий нажатие кнопки "update" при модификации контакта
   public void updateContact() {
     click(By.name("update"));
+  }
+
+  // метод для проверки наличия элемента на странице
+  public boolean isThereAContact() {
+    return isElementPresent(By.name("selected[]"));
+  }
+
+  // метод для создания нового контакта
+  public void createContact(ContactGroupData contact) {
+    // Заполняем необходимые поля значениями; передаем значение группы
+    // в качестве значения creation передаем true, т.к. на форме редактирования контакта поле new_group присутствует
+    fillContactForm(contact, true);
+    // Нажимаем кнопку "Enter" для создания нового контакта
+    submitContactCreation();
+    // Возвращаемся к списку всех контактов
+    returnToHomePage();
   }
 }

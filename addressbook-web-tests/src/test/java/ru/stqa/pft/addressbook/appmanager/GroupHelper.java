@@ -40,7 +40,6 @@ public class GroupHelper extends HelperBase {
 
   // выбор групп для удаления и нажатие кнопки "Delete group(s)"
   public void deleteSelectedGroups() {
-    selectGroup();
     click(By.name("delete"));
   }
 
@@ -57,5 +56,22 @@ public class GroupHelper extends HelperBase {
   // нажатие кнопки "update" для модификации группы контактов
   public void submitGroupModification() {
     click(By.name("update"));
+  }
+
+  // метод для создания группы
+  public void createGroup(GroupData group) {
+    // Нажимаем кнопку "New group" для создания новой группы контактов
+    initGroupCreation();
+    // Заполняем необходимые поля значениями
+    fillGroupForm(group);
+    // Нажимаем кнопку "Enter information" для создания новой группы
+    submitGroupCreation();
+    // Возвращаемся к списку всех групп; видим созданную группу
+    returnToGroupPage();
+  }
+
+  // метод для проверки наличия элемента на странице
+  public boolean isThereAGroup() {
+    return isElementPresent(By.name("selected[]"));
   }
 }

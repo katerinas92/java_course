@@ -10,13 +10,7 @@ public class GroupCreationTests extends TestBase {
   public void testGroupCreation() {
     // Выбираем пункт меню "groups"
     app.getNavigationHelper().gotoGroupPage();
-    // Нажимаем кнопку "New group" для создания новой группы контактов
-    app.getGroupHelper().initGroupCreation();
-    // Заполняем необходимые поля значениями
-    app.getGroupHelper().fillGroupForm(new GroupData("test1", null, null));
-    // Нажимаем кнопку "Enter information" для создания новой группы
-    app.getGroupHelper().submitGroupCreation();
-    // Возвращаемся к списку всех групп; видим созданную группу
-    app.getGroupHelper().returnToGroupPage();
+    // Нажимаем кнопку "New group" для создания новой группы контактов; вызываем отдельный метод createGroup()
+    app.getGroupHelper().createGroup(new GroupData("test1", null, null));
   }
 }

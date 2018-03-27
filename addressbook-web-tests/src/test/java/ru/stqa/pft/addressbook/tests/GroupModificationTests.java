@@ -9,6 +9,12 @@ public class GroupModificationTests extends TestBase {
   public void testGroupModificationTests() {
     // Выбираем пункт меню "groups"
     app.getNavigationHelper().gotoGroupPage();
+    // Проверяем, есть ли хотя бы одна группа, которую можно отредактировать
+    // Если ее нет, то
+    if (! app.getGroupHelper().isThereAGroup()) {
+      // создаем новую группу
+      app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+    }
     // Отмечаем чек-боксами группы контактов
     app.getGroupHelper().selectGroup();
     // Нажимаем кнопку "Edit Groups"
