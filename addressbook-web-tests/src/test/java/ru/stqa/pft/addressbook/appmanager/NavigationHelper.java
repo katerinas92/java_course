@@ -13,11 +13,21 @@ public class NavigationHelper extends HelperBase {
 
   // Выбор пункта меню "groups" для создания новой группы контактов
   public void gotoGroupPage() {
-    click(By.linkText("groups"));
+    // проверяем наличие заголовка Groups на странице
+    if (isElementPresent(By.tagName("h1"))
+            && wd.findElement(By.tagName("h1")).getText().equals("Groups")
+            && isElementPresent(By.name("new"))) {
+      return;
+    }
+      click(By.linkText("groups"));
   }
 
   // Выбор пункта меню "home"
   public void goToHomePage() {
+    // проверяем наличие на главной странице таблицы maintable со списком всех контактов
+    if (isElementPresent(By.id("maintable"))) {
+      return;
+    }
     click(By.linkText("home"));
   }
 
