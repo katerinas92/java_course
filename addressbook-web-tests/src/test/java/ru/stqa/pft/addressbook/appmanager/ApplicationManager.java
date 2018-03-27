@@ -33,7 +33,8 @@ public class ApplicationManager {
     } else if (browser.equals(BrowserType.IE)) {
       wd = new InternetExplorerDriver();
     }
-    wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+    // указано имплицитное ожидание (implicitlyWait)
+    wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     wd.get("http://localhost:8081/addressbook/");
     // чтобы другие классы получили доступ к этому драйверу, передаем ссылку в конструктор
     groupHelper = new GroupHelper(wd);

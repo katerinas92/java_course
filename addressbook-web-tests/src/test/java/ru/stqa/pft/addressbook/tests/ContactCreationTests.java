@@ -10,8 +10,9 @@ public class ContactCreationTests extends TestBase {
     public void testContactCreation() {
         // Выбираем пункт меню "add new"
         app.getNavigationHelper().gotoContactPage();
-        // Заполняем необходимые поля значениями
-        app.getContactHelper().fillContactForm(new ContactGroupData("Suslova", "Igorevna", "Ekaterina", "Russia", "e_suslova@mail.ru", "12-12-12", "999-999-999-99", "123-123-456"));
+        // Заполняем необходимые поля значениями; передаем значение группы
+        // в качестве значения creation передаем true, т.к. на форме редактирования контакта поле new_group присутствует
+        app.getContactHelper().fillContactForm(new ContactGroupData("Suslova", "Igorevna", "Ekaterina", "Russia", "e_suslova@mail.ru", "12-12-12", "999-999-999-99", "123-123-456", "test1"), true);
         // Нажимаем кнопку "Enter" для создания нового контакта
         app.getContactHelper().submitContactCreation();
         // Возвращаемся к списку всех контактов

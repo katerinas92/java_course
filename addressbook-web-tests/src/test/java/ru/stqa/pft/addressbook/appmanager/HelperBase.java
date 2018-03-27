@@ -2,6 +2,7 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 public class HelperBase {
@@ -37,4 +38,17 @@ public class HelperBase {
     }
   }
 
+  protected boolean isElementPresent(By locator) {
+    // пробуем найти элемент
+    try {
+      // проверяем есть ли элемент на странице с переданным локатором
+      wd.findElement(locator);
+      // если есть, то передаем true, иначе идем в условие catch
+      return true;
+    }
+    // если такого элемента нет, то выбрасывается исключение false
+    catch (NoSuchElementException ex) {
+      return false;
+    }
+  }
 }
