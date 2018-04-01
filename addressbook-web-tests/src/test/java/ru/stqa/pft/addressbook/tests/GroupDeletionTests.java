@@ -20,7 +20,8 @@ public class GroupDeletionTests extends TestBase {
       app.getGroupHelper().createGroup(new GroupData("test1", null, null));
     }
     // Отмечаем чек-боксами группы контактов для удаления
-    app.getGroupHelper().selectGroup();
+    // В качестве index передаем порядковый номер элемента, который нужно выбрать
+    app.getGroupHelper().selectGroup(before - 1);
     // и удаляем их по кнопке "Delete group(s)"
     app.getGroupHelper().deleteSelectedGroups();
     // Возвращаемся к списку всех групп; видим, что выбранная группа удалена

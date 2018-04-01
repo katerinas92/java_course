@@ -44,8 +44,9 @@ public class GroupHelper extends HelperBase {
   }
 
   // проставление чекбоксов напротив групп контактов (выбор групп контактов из списка)
-  public void selectGroup() {
-    click(By.name("selected[]"));
+  public void selectGroup(int index) {
+    // находим элемент по локатору и выбираем нужный
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
   // нажатие кнопки "Edit Group"

@@ -19,7 +19,8 @@ public class GroupModificationTests extends TestBase {
       app.getGroupHelper().createGroup(new GroupData("test1", null, null));
     }
     // Отмечаем чек-боксами группы контактов
-    app.getGroupHelper().selectGroup();
+    // В качестве index передаем порядковый номер элемента, который нужно выбрать
+    app.getGroupHelper().selectGroup(before - 1);
     // Нажимаем кнопку "Edit Groups"
     app.getGroupHelper().initGroupModification();
     // Редактируем группу (меняем значения полей)
