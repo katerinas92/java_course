@@ -36,5 +36,9 @@ public class GroupDeletionTests extends TestBase {
     List<GroupData> after = app.getGroupHelper().getGroupList();
     // проверяем, что количество групп после удаления увеличилось на 1
     Assert.assertEquals(after.size(), before.size() - 1);
+    // удаляем последний элемент листа
+    before.remove(before.size() - 1);
+    // с помощью assertEquals проверяем, что элементы в листах совпадают
+      Assert.assertEquals(before, after);
   }
 }
