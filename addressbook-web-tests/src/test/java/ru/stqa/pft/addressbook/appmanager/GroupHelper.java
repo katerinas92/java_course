@@ -74,4 +74,10 @@ public class GroupHelper extends HelperBase {
   public boolean isThereAGroup() {
     return isElementPresent(By.name("selected[]"));
   }
+
+  // метод, возвращающий количество групп
+  public int getGroupCount() {
+    // в качестве findElements выбран List<>
+    return wd.findElements(By.name("selected[]")).size();
+  }
 }
