@@ -19,7 +19,7 @@ public class GroupCreationTests extends TestBase {
     // Формируем список из групп до создания новой
     List<GroupData> before = app.getGroupHelper().getGroupList();
     // Задаем значения для новой группы
-    GroupData group = new GroupData("test1", null, null);
+    GroupData group = new GroupData("test2", null, null);
     // Нажимаем кнопку "New group" для создания новой группы контактов; вызываем отдельный метод createGroup()
     app.getGroupHelper().createGroup(group);
     // вычисляем количество групп после добавления
@@ -29,14 +29,10 @@ public class GroupCreationTests extends TestBase {
     // проверяем, что количество групп после добавления увеличилось на 1
     Assert.assertEquals(after.size(), before.size()+1);
 
-    // находим элемент с максимальным идентификатором
-    int max = 0;
-    for (GroupData g : after) {
-      if (g.getId() > max) {
-        max = g.getId();
-      }
-    }
-    group.setId(max);
+    // новые возможности для Java 8
+    // превращаем список в поток, а потом с помощью компаратора сравниваем 2 объекта GroupData и вычисляем максимальный Id
+    // Компаратор объекта GroupData, который сравнивает несколько таких объектов
+    group.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
     before.add(group);
     Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
   }
