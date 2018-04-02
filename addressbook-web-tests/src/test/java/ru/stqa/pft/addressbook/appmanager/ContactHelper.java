@@ -2,9 +2,13 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // класс, который помогает работать с контактами
 public class ContactHelper extends HelperBase {
@@ -55,13 +59,12 @@ public class ContactHelper extends HelperBase {
   }
 
   // проставление чекбоксов напротив контактов из списка
-  public void selectContact() {
-    click(By.name("selected[]"));
+  public void selectContact(int index) {
+    wd.findElements(By.name("selected[]")).get(index).click();
   }
 
   // выбор контактов для удаления и нажатие кнопки "Delete"
   public void deleteSelectedContacts() {
-    selectContact();
     click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
     //закрытие диалогового окна (alert)
     wd.switchTo().alert().accept();
@@ -69,7 +72,6 @@ public class ContactHelper extends HelperBase {
 
   // выбор контакта на редактирование
   public void updateSelectedContacts() {
-    selectContact();
     click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
     click(By.xpath("//div[@id='content']/form[1]"));
   }
@@ -93,5 +95,28 @@ public class ContactHelper extends HelperBase {
     submitContactCreation();
     // Возвращаемся к списку всех контактов
     returnToHomePage();
+  }
+
+  // формируем список из контактов
+  public List<ContactGroupData> getContactList() {
+    // создаем лист для списка контактов
+    List<ContactGroupData> contacts = new ArrayList<ContactGroupData>();
+    // заполняем лист значениями с веб-страницы
+    // получаем список строк таблицы
+    List<WebElement> elements = wd.findElements(By.name("entry"));
+    // проходим по всем строкам в цикле
+    for (WebElement element : elements) {
+      // каждую строку разбиваем на ячейки
+      List<WebElement> cells = element.findElements(By.tagName("td"));
+      // из этого списка по номеру столбца берем нужные ячейки и получаем их текст
+      String lastName = cells.get(1).getText();
+      String firstName = cells.get(2).getText();
+      // создаем обект ContactGroupData и заполняем его значениями
+      ContactGroupData contact = new ContactGroupData(lastName, null, firstName, null, null, null, null, null, "test1");
+      // добавляем созданный объект в список
+      contacts.add(contact);
+    }
+    // возвращаем лист с контактами
+    return contacts;
   }
 }
