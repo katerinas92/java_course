@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -32,8 +33,17 @@ public class GroupCreationTests extends TestBase {
     // новые возможности для Java 8
     // превращаем список в поток, а потом с помощью компаратора сравниваем 2 объекта GroupData и вычисляем максимальный Id
     // Компаратор объекта GroupData, который сравнивает несколько таких объектов
-    group.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
+    // group.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
+
     before.add(group);
-    Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
+    // сортируем списки с помощью компаратора и функции sort()
+    Comparator<? super GroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
+    // сортируем старый и новый списки
+    before.sort(byId);
+    after.sort(byId);
+    // сравниваем отсортированные группы
+    Assert.assertEquals(before, after);
+    // сравниваем множества
+    // Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
   }
 }

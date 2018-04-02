@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
@@ -44,6 +45,14 @@ public class GroupModificationTests extends TestBase {
 
     before.remove(before.size() - 1);
     before.add(group);
-    Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
+    // сортируем списки с помощью компаратора и функции sort()
+    Comparator<? super GroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
+    // сортируем старый и новый списки
+    before.sort(byId);
+    after.sort(byId);
+    // сравниваем отсортированные группы
+    Assert.assertEquals(before, after);
+    // сравниваем множества
+    //Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
   }
 }
