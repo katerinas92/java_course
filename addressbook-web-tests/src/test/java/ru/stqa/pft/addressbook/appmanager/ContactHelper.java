@@ -72,8 +72,10 @@ public class ContactHelper extends HelperBase {
 
   // выбор контакта на редактирование
   public void updateSelectedContacts() {
+    //wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img")).get(index).click();
+    //wd.findElements(By.xpath("//div[@id='content']/form[1]")).get(index).click();
     click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
-    click(By.xpath("//div[@id='content']/form[1]"));
+    //click(By.xpath("//div[@id='content']/form[1]"));
   }
 
   // метод выполняющий нажатие кнопки "update" при модификации контакта

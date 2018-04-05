@@ -21,15 +21,13 @@ public class ContactModificationTests extends TestBase {
     }
     // Формируем список из контактов до модификации
     List<ContactGroupData> before = app.getContactHelper().getContactList();
-    // Отмечаем чек-боксами контакты
-    // В качестве index передаем порядковый номер элемента, который нужно выбрать
-    app.getContactHelper().selectContact(before.size() - 1);
     // Открываем контакт на редактирование по кнопке с карандашом
+    // В качестве index передаем порядковый номер элемента, который нужно выбрать
     app.getContactHelper().updateSelectedContacts();
     // Редактируем контакт (меняем значения полей);
     // в качестве значения group передаем значение null, т.к. при модификации контактак изменить группу нельзя
     // в качестве значения creation передаем false, т.к. на форме редактирования контакта поле new_group отсутствует
-    ContactGroupData contact = new ContactGroupData(before.get(before.size() - 1).getId(), "Ivanov", "Ivan","Ivanov", "USA", "test@mail.ru", "33-33-33", "65-65-65", null, "test1");
+    ContactGroupData contact = new ContactGroupData(before.get(before.size() - 1).getId(), "Ivanov", "Ivanovich","Ivan", "USA", "test@mail.ru", "33-33-33", "65-65-65", null, "test1");
     // Редактируем контакт (меняем значения полей);
     // в качестве значения group передаем значение null, т.к. при модификации контактак изменить группу нельзя
     // в качестве значения creation передаем false, т.к. на форме редактирования контакта поле new_group отсутствует
