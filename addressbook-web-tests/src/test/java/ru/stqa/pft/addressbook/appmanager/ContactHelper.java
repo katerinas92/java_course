@@ -113,8 +113,9 @@ public class ContactHelper extends HelperBase {
       // из этого списка по номеру столбца берем нужные ячейки и получаем их текст
       String lastName = cells.get(1).getText();
       String firstName = cells.get(2).getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       // создаем обект ContactGroupData и заполняем его значениями
-      ContactGroupData contact = new ContactGroupData(lastName, null, firstName, null, null, null, null, null, "test1");
+      ContactGroupData contact = new ContactGroupData(id, firstName, null, lastName, null, null, null, null, null, "test1");
       // добавляем созданный объект в список
       contacts.add(contact);
     }

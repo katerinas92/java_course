@@ -23,6 +23,7 @@ public class ContactCreationTests extends TestBase {
         List<ContactGroupData> after = app.getContactHelper().getContactList();
         // проверяем, что количество контактов после добавления увеличилось на 1
         Assert.assertEquals(after.size(), before.size() + 1);
+        // добавляем новый контакт в лист before
         before.add(contact);
         // сортируем списки с помощью компаратора и функции sort()
         Comparator<? super ContactGroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());

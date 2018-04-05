@@ -41,7 +41,8 @@ public class ContactModificationTests extends TestBase {
     List<ContactGroupData> after = app.getContactHelper().getContactList();
     // проверяем, что количество контактов после редактирования не изменилось
     Assert.assertEquals(after.size(), before.size());
-    before.remove(before.size() - 1);
+    // удаляем из листа before первый элемент, который редактировался
+    before.remove(0);
     before.add(contact);
     // сортируем списки с помощью компаратора и функции sort()
     Comparator<? super ContactGroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
