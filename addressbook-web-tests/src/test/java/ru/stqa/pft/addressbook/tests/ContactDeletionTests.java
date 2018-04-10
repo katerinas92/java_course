@@ -24,7 +24,7 @@ public class ContactDeletionTests extends TestBase {
     // и удаляем их по кнопке "Delete"
     app.getContactHelper().deleteSelectedContacts();
     // Возвращаемся к списку всех контактов; видим, что выбранная группа удалена
-    app.getNavigationHelper().goToHomePage();
+    app.goTo().goToHomePage();
     // Формируем список из групп после создания новой
     List<ContactGroupData> after = app.getContactHelper().getContactList();
     // проверяем, что количество групп после удаления увеличилось на 1

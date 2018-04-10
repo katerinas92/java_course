@@ -64,7 +64,7 @@ public class GroupHelper extends HelperBase {
   }
 
   // метод для создания группы
-  public void createGroup(GroupData group) {
+  public void create(GroupData group) {
     // Нажимаем кнопку "New group" для создания новой группы контактов
     initGroupCreation();
     // Заполняем необходимые поля значениями
@@ -76,8 +76,7 @@ public class GroupHelper extends HelperBase {
   }
 
   // метод для модификации группы
-
-  public void modifyGroup(int index, GroupData group) {
+  public void modify(int index, GroupData group) {
     // Отмечаем чек-боксами группы контактов
     // В качестве index передаем порядковый номер элемента, который нужно выбрать
     selectGroup(index);
@@ -88,6 +87,17 @@ public class GroupHelper extends HelperBase {
     // Нажимаем кнопку "Update"
     submitGroupModification();
     // Возвращаемся к списку всех групп
+    returnToGroupPage();
+  }
+
+  // метод для удаления группы
+  public void delete(int index) {
+    // Отмечаем чек-боксами группы контактов для удаления
+    // В качестве index передаем порядковый номер элемента, который нужно выбрать
+    selectGroup(index);
+    // и удаляем их по кнопке "Delete group(s)"
+    deleteSelectedGroups();
+    // Возвращаемся к списку всех групп; видим, что выбранная группа удалена
     returnToGroupPage();
   }
 
@@ -103,7 +113,7 @@ public class GroupHelper extends HelperBase {
   }
 
   // Формируем список из групп
-  public List<GroupData> getGroupList() {
+  public List<GroupData> list() {
     // создаем лист для списка групп
     List<GroupData> groups = new ArrayList<GroupData>();
     // заполняем лист значениями с веб-страницы

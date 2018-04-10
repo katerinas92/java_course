@@ -15,7 +15,7 @@ public class ContactModificationTests extends TestBase {
     // Если его нет, то
     if (! app.getContactHelper().isThereAContact()) {
       // Выбираем пункт меню "add new"
-      app.getNavigationHelper().gotoContactPage();
+      app.goTo().gotoContactPage();
       // создаем новый контакт
       app.getContactHelper().createContact(new ContactGroupData("Suslova", "Igorevna", "Ekaterina", "Russia", "e_suslova@mail.ru", "12-12-12", "999-999-999-99", "123-123-456", "test1"));
     }
