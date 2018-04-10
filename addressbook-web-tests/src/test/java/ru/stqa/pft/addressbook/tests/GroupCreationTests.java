@@ -3,9 +3,7 @@ package ru.stqa.pft.addressbook.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
-
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 // Тест для создания новой группы контактов
@@ -14,19 +12,19 @@ public class GroupCreationTests extends TestBase {
   @Test
   public void testGroupCreation() {
     // Выбираем пункт меню "groups"
-    app.getNavigationHelper().gotoGroupPage();
+    app.goTo().groupPage();
     // вычисляем количество групп до добавления
-    // int before = app.getGroupHelper().getGroupCount();
+    // int before = app.group().getGroupCount();
     // Формируем список из групп до создания новой
-    List<GroupData> before = app.getGroupHelper().getGroupList();
+    List<GroupData> before = app.group().list();
     // Задаем значения для новой группы
     GroupData group = new GroupData("test2", null, null);
-    // Нажимаем кнопку "New group" для создания новой группы контактов; вызываем отдельный метод createGroup()
-    app.getGroupHelper().createGroup(group);
+    // Нажимаем кнопку "New group" для создания новой группы контактов; вызываем отдельный метод create()
+    app.group().create(group);
     // вычисляем количество групп после добавления
-    // int after = app.getGroupHelper().getGroupCount();
+    // int after = app.group().getGroupCount();
     // Формируем список из групп после создания новой
-    List<GroupData> after = app.getGroupHelper().getGroupList();
+    List<GroupData> after = app.group().list();
     // проверяем, что количество групп после добавления увеличилось на 1
     Assert.assertEquals(after.size(), before.size()+1);
 

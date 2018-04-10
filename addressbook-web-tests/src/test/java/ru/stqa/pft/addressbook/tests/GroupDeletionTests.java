@@ -4,7 +4,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
-
 import java.util.List;
 
 // Тест для удаления групп(-ы) контактов
@@ -13,37 +12,33 @@ public class GroupDeletionTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     // Выбираем пункт меню "groups"
-    app.getNavigationHelper().gotoGroupPage();
+    app.goTo().groupPage();
     // Проверяем, есть ли хотя бы одна группа, которую можно удалить
     // Если ее нет, то
-    if (! app.getGroupHelper().isThereAGroup()) {
+    if (app.group().list().size() == 0) {
       // создаем новую группу
-      app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+      app.group().create(new GroupData("test1", null, null));
     }
   }
-
 
   @Test
   public void testGroupDeletion() {
     // вычисляем количество групп до удаления
-    // int before = app.getGroupHelper().getGroupCount();
+    // int before = app.group().getGroupCount();
     // Формируем список из групп до создания новой
-    List<GroupData> before = app.getGroupHelper().getGroupList();
-    // Отмечаем чек-боксами группы контактов для удаления
-    // В качестве index передаем порядковый номер элемента, который нужно выбрать
-    app.getGroupHelper().selectGroup(before.size() - 1);
-    // и удаляем их по кнопке "Delete group(s)"
-    app.getGroupHelper().deleteSelectedGroups();
-    // Возвращаемся к списку всех групп; видим, что выбранная группа удалена
-    app.getGroupHelper().returnToGroupPage();
+    List<GroupData> before = app.group().list();
+    // задаем значение выбранного элемента для удаления
+    int index = before.size() - 1;
+    // запускаем метод для удаления групп
+    app.group().delete(index);
     // вычисляем количество групп после удаления
-    // int after = app.getGroupHelper().getGroupCount();
+    // int after = app.group().getGroupCount();
     // Формируем список из групп после создания новой
-    List<GroupData> after = app.getGroupHelper().getGroupList();
+    List<GroupData> after = app.group().list();
     // проверяем, что количество групп после удаления увеличилось на 1
-    Assert.assertEquals(after.size(), before.size() - 1);
+    Assert.assertEquals(after.size(), index);
     // удаляем последний элемент листа
-    before.remove(before.size() - 1);
+    before.remove(index);
     // с помощью assertEquals проверяем, что элементы в листах совпадают
       Assert.assertEquals(before, after);
   }

@@ -12,7 +12,7 @@ public class NavigationHelper extends HelperBase {
   }
 
   // Выбор пункта меню "groups" для создания новой группы контактов
-  public void gotoGroupPage() {
+  public void groupPage() {
     // проверяем наличие заголовка Groups на странице
     if (isElementPresent(By.tagName("h1"))
             && wd.findElement(By.tagName("h1")).getText().equals("Groups")

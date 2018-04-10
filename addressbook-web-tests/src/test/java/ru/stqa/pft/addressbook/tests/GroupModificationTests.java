@@ -12,30 +12,30 @@ public class GroupModificationTests extends TestBase {
   @BeforeMethod
   public void ensurePreconditions() {
     // Выбираем пункт меню "groups"
-    app.getNavigationHelper().gotoGroupPage();
+    app.goTo().groupPage();
+    //if (! app.group().isThereAGroup())
     // Проверяем, есть ли хотя бы одна группа, которую можно отредактировать
-    // Если ее нет, то
-    if (! app.getGroupHelper().isThereAGroup()) {
-      // создаем новую группу
-      app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+      if (app.group().list().size() == 0){
+      // Если ее нет, то создаем новую группу
+      app.group().create(new GroupData("test1", null, null));
     }
   }
 
   @Test
   public void testGroupModificationTests() {
     // вычисляем количество групп до модификации
-    // int before = app.getGroupHelper().getGroupCount();
+    // int before = app.group().getGroupCount();
     // Формируем список из групп до создания новой
-    List<GroupData> before = app.getGroupHelper().getGroupList();
+    List<GroupData> before = app.group().list();
     // задаем значение выбранного элемента для редактирования
     int index = before.size() - 1;
     GroupData group = new GroupData(before.get(index).getId(), "test_modification_1", "test_modification_2", "test_modification_3");
     // запускаем метод для модификации группы
-    app.getGroupHelper().modifyGroup(index, group);
+    app.group().modify(index, group);
     // вычисляем количество групп после удаления
-    // int after = app.getGroupHelper().getGroupCount();
+    // int after = app.group().getGroupCount();
     // Формируем список из групп после создания новой
-    List<GroupData> after = app.getGroupHelper().getGroupList();
+    List<GroupData> after = app.group().list();
     // проверяем, что количество групп после удаления увеличилось на 1
     Assert.assertEquals(after.size(), before.size());
 

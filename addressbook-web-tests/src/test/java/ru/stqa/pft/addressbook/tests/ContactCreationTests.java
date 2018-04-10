@@ -17,7 +17,7 @@ public class ContactCreationTests extends TestBase {
         // Задаем значения для нового контакта
         ContactGroupData contact = new ContactGroupData("Suslova", "Igorevna", "Ekaterina", "Russia", "e_suslova@mail.ru", "12-12-12", "999-999-999-99", "123-123-456", "test1");
         // Выбираем пункт меню "add new"
-        app.getNavigationHelper().gotoContactPage();
+        app.goTo().gotoContactPage();
         app.getContactHelper().createContact(contact);
         // Формируем список из контактов после создания нового
         List<ContactGroupData> after = app.getContactHelper().getContactList();
