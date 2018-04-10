@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 
@@ -9,8 +10,8 @@ import java.util.List;
 // Тест для удаления групп(-ы) контактов
 public class GroupDeletionTests extends TestBase {
 
-  @Test
-  public void testGroupDeletion() {
+  @BeforeMethod
+  public void ensurePreconditions() {
     // Выбираем пункт меню "groups"
     app.getNavigationHelper().gotoGroupPage();
     // Проверяем, есть ли хотя бы одна группа, которую можно удалить
@@ -19,6 +20,11 @@ public class GroupDeletionTests extends TestBase {
       // создаем новую группу
       app.getGroupHelper().createGroup(new GroupData("test1", null, null));
     }
+  }
+
+
+  @Test
+  public void testGroupDeletion() {
     // вычисляем количество групп до удаления
     // int before = app.getGroupHelper().getGroupCount();
     // Формируем список из групп до создания новой

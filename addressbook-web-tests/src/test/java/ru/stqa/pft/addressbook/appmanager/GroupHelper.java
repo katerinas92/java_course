@@ -75,6 +75,22 @@ public class GroupHelper extends HelperBase {
     returnToGroupPage();
   }
 
+  // метод для модификации группы
+
+  public void modifyGroup(int index, GroupData group) {
+    // Отмечаем чек-боксами группы контактов
+    // В качестве index передаем порядковый номер элемента, который нужно выбрать
+    selectGroup(index);
+    // Нажимаем кнопку "Edit Groups"
+    initGroupModification();
+    // Редактируем группу (меняем значения полей)
+    fillGroupForm(group);
+    // Нажимаем кнопку "Update"
+    submitGroupModification();
+    // Возвращаемся к списку всех групп
+    returnToGroupPage();
+  }
+
   // метод для проверки наличия элемента на странице
   public boolean isThereAGroup() {
     return isElementPresent(By.name("selected[]"));
