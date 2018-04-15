@@ -1,10 +1,13 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
-import java.util.Set;
+import ru.stqa.pft.addressbook.model.Groups;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class GroupModificationTests extends TestBase {
 
@@ -22,28 +25,19 @@ public class GroupModificationTests extends TestBase {
 
   @Test
   public void testGroupModificationTests() {
-    // вычисляем количество групп до модификации
-    // int before = app.group().getGroupCount();
     // Формируем список из групп до создания новой
-    Set<GroupData> before = app.group().all();
+    Groups before = app.group().all();
     // вычисляем группу для модификации из множества случайным образом
     GroupData modifiedGroup = before.iterator().next();
     GroupData group = new GroupData()
             .withId(modifiedGroup.getId()).withName("test_modification_1").withHeader("test_modification_2").withFooter("test_modification_3");
     // запускаем метод для модификации группы
     app.group().modify(group);
-    // вычисляем количество групп после удаления
-    // int after = app.group().getGroupCount();
     // Формируем список из групп после создания новой
-    Set<GroupData> after = app.group().all();
+    Groups after = app.group().all();
     // проверяем, что количество групп после удаления увеличилось на 1
-    Assert.assertEquals(after.size(), before.size());
-
-    before.remove(modifiedGroup);
-    before.add(group);
+    assertEquals(after.size(), before.size());
     // сравниваем отсортированные группы
-    Assert.assertEquals(before, after);
-    // сравниваем множества
-    //Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
+    assertThat(after, equalTo(before.withOut(modifiedGroup).withAdded(group)));
   }
 }

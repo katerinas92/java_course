@@ -1,10 +1,13 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
-import java.util.Set;
+import ru.stqa.pft.addressbook.model.Groups;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 // Тест для удаления групп(-ы) контактов
 public class GroupDeletionTests extends TestBase {
@@ -23,23 +26,17 @@ public class GroupDeletionTests extends TestBase {
 
   @Test
   public void testGroupDeletion() {
-    // вычисляем количество групп до удаления
-    // int before = app.group().getGroupCount();
     // Формируем множество из групп до создания новой
-    Set<GroupData> before = app.group().all();
+    Groups before = app.group().all();
     // вычисляем группу для удаления из множества случайным образом
     GroupData deletedGroup = before.iterator().next();
     // запускаем метод для удаления групп
     app.group().delete(deletedGroup);
-    // вычисляем количество групп после удаления
-    // int after = app.group().getGroupCount();
     // Формируем список из групп после создания новой
-    Set<GroupData> after = app.group().all();
+    Groups after = app.group().all();
     // проверяем, что количество групп после удаления увеличилось на 1
-    Assert.assertEquals(after.size(), before.size() - 1);
-    // удаляем выбранный элемент множества
-    before.remove(deletedGroup);
-    // с помощью assertEquals проверяем, что элементы в листах совпадают
-      Assert.assertEquals(before, after);
+    assertEquals(after.size(), before.size() - 1);
+    // удаляем выбранный элемент множества и проверяем, что элементы в множествах совпадают
+    assertThat(after, equalTo(before.withOut(deletedGroup)));
   }
 }
