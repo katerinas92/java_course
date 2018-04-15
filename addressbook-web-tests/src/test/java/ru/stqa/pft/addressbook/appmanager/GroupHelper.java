@@ -4,9 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
-
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 // класс, который помогает работать с набором групп данных (заполняемых полей веб-приложения)
 public class GroupHelper extends HelperBase {
@@ -53,6 +54,12 @@ public class GroupHelper extends HelperBase {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
 
+  // выбор группы по идентификатору
+  public void selectGroupById(int id) {
+    // находим элемент по локатору и выбираем нужный
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+  }
+
   // нажатие кнопки "Edit Group"
   public void initGroupModification() {
     click(By.name("edit"));
@@ -76,10 +83,10 @@ public class GroupHelper extends HelperBase {
   }
 
   // метод для модификации группы
-  public void modify(int index, GroupData group) {
+  public void modify(GroupData group) {
     // Отмечаем чек-боксами группы контактов
     // В качестве index передаем порядковый номер элемента, который нужно выбрать
-    selectGroup(index);
+    selectGroupById(group.getId());
     // Нажимаем кнопку "Edit Groups"
     initGroupModification();
     // Редактируем группу (меняем значения полей)
@@ -90,11 +97,22 @@ public class GroupHelper extends HelperBase {
     returnToGroupPage();
   }
 
-  // метод для удаления группы
+  // метод для удаления группы по порядковому номеру
   public void delete(int index) {
     // Отмечаем чек-боксами группы контактов для удаления
     // В качестве index передаем порядковый номер элемента, который нужно выбрать
     selectGroup(index);
+    // и удаляем их по кнопке "Delete group(s)"
+    deleteSelectedGroups();
+    // Возвращаемся к списку всех групп; видим, что выбранная группа удалена
+    returnToGroupPage();
+  }
+
+  // метод для удаления группы по идентификатору
+  public void delete(GroupData group) {
+    // Отмечаем чек-боксами группы контактов для удаления
+    // В качестве index передаем идентификатор, который нужно выбрать
+    selectGroupById(group.getId());
     // и удаляем их по кнопке "Delete group(s)"
     deleteSelectedGroups();
     // Возвращаемся к списку всех групп; видим, что выбранная группа удалена
@@ -116,6 +134,27 @@ public class GroupHelper extends HelperBase {
   public List<GroupData> list() {
     // создаем лист для списка групп
     List<GroupData> groups = new ArrayList<GroupData>();
+    // заполняем лист значениями с веб-страницы
+    // находим все элементы, которые имеют тег span и класс group
+    List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+    // проходим по всем элементам в цикле
+    for (WebElement element : elements) {
+      // извлекаем имя элемента
+      String name = element.getText();
+      // извлекаем id элемента из тега input параметр value
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      // создаем обект GroupData и заполняем его значениями
+      GroupData group = new GroupData().withId(id).withName(name);
+      // добавляем созданный объект в список
+      groups.add(group);
+    }
+    // возвращаем лист с группами
+    return groups;
+  }
+
+  // Формируем множество
+  public Set<GroupData> all() {
+    Set<GroupData> groups = new HashSet<GroupData>();
     // заполняем лист значениями с веб-страницы
     // находим все элементы, которые имеют тег span и класс group
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));

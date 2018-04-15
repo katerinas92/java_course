@@ -4,8 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
-import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 
 public class GroupModificationTests extends TestBase {
 
@@ -15,7 +14,7 @@ public class GroupModificationTests extends TestBase {
     app.goTo().groupPage();
     //if (! app.group().isThereAGroup())
     // Проверяем, есть ли хотя бы одна группа, которую можно отредактировать
-      if (app.group().list().size() == 0){
+      if (app.group().all().size() == 0){
       // Если ее нет, то создаем новую группу
       app.group().create(new GroupData().withName("test1"));
     }
@@ -26,27 +25,22 @@ public class GroupModificationTests extends TestBase {
     // вычисляем количество групп до модификации
     // int before = app.group().getGroupCount();
     // Формируем список из групп до создания новой
-    List<GroupData> before = app.group().list();
-    // задаем значение выбранного элемента для редактирования
-    int index = before.size() - 1;
+    Set<GroupData> before = app.group().all();
+    // вычисляем группу для модификации из множества случайным образом
+    GroupData modifiedGroup = before.iterator().next();
     GroupData group = new GroupData()
-            .withId(before.get(index).getId()).withName("test_modification_1").withHeader("test_modification_2").withFooter("test_modification_3");
+            .withId(modifiedGroup.getId()).withName("test_modification_1").withHeader("test_modification_2").withFooter("test_modification_3");
     // запускаем метод для модификации группы
-    app.group().modify(index, group);
+    app.group().modify(group);
     // вычисляем количество групп после удаления
     // int after = app.group().getGroupCount();
     // Формируем список из групп после создания новой
-    List<GroupData> after = app.group().list();
+    Set<GroupData> after = app.group().all();
     // проверяем, что количество групп после удаления увеличилось на 1
     Assert.assertEquals(after.size(), before.size());
 
-    before.remove(index);
+    before.remove(modifiedGroup);
     before.add(group);
-    // сортируем списки с помощью компаратора и функции sort()
-    Comparator<? super GroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-    // сортируем старый и новый списки
-    before.sort(byId);
-    after.sort(byId);
     // сравниваем отсортированные группы
     Assert.assertEquals(before, after);
     // сравниваем множества
