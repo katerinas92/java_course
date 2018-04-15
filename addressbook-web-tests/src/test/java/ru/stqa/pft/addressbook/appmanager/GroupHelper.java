@@ -126,7 +126,7 @@ public class GroupHelper extends HelperBase {
       // извлекаем id элемента из тега input параметр value
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       // создаем обект GroupData и заполняем его значениями
-      GroupData group = new GroupData(id, name, null, null);
+      GroupData group = new GroupData().withId(id).withName(name);
       // добавляем созданный объект в список
       groups.add(group);
     }

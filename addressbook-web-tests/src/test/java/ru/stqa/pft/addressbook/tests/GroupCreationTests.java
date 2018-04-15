@@ -18,7 +18,7 @@ public class GroupCreationTests extends TestBase {
     // Формируем список из групп до создания новой
     List<GroupData> before = app.group().list();
     // Задаем значения для новой группы
-    GroupData group = new GroupData("test2", null, null);
+    GroupData group = new GroupData().withName("test2");
     // Нажимаем кнопку "New group" для создания новой группы контактов; вызываем отдельный метод create()
     app.group().create(group);
     // вычисляем количество групп после добавления
