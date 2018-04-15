@@ -33,10 +33,10 @@ public class GroupModificationTests extends TestBase {
             .withId(modifiedGroup.getId()).withName("test_modification_1").withHeader("test_modification_2").withFooter("test_modification_3");
     // запускаем метод для модификации группы
     app.group().modify(group);
+    // проверка, что количество групп после модификации не изменилось с помощью hamcrest
+    assertThat(app.group().count(), equalTo(before.size()));
     // Формируем список из групп после создания новой
     Groups after = app.group().all();
-    // проверяем, что количество групп после удаления увеличилось на 1
-    assertEquals(after.size(), before.size());
     // сравниваем отсортированные группы
     assertThat(after, equalTo(before.withOut(modifiedGroup).withAdded(group)));
   }

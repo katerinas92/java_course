@@ -32,10 +32,10 @@ public class GroupDeletionTests extends TestBase {
     GroupData deletedGroup = before.iterator().next();
     // запускаем метод для удаления групп
     app.group().delete(deletedGroup);
+    // проверка, что количество групп после добавления уменьшилось на 1 с помощью hamcrest
+    assertThat(app.group().count(), equalTo(before.size()-1));
     // Формируем список из групп после создания новой
     Groups after = app.group().all();
-    // проверяем, что количество групп после удаления увеличилось на 1
-    assertEquals(after.size(), before.size() - 1);
     // удаляем выбранный элемент множества и проверяем, что элементы в множествах совпадают
     assertThat(after, equalTo(before.withOut(deletedGroup)));
   }

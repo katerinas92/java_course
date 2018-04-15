@@ -130,7 +130,7 @@ public class GroupHelper extends HelperBase {
   }
 
   // метод, возвращающий количество групп
-  public int getGroupCount() {
+  public int count() {
     // в качестве findElements выбран List<>
     return wd.findElements(By.name("selected[]")).size();
   }
