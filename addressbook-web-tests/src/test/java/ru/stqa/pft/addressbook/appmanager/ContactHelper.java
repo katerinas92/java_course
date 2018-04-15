@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,8 +64,23 @@ public class ContactHelper extends HelperBase {
     wd.findElements(By.name("selected[]")).get(index).click();
   }
 
+  // выбор контакта по идентификатору
+  public void selectContactById(int id) {
+    // находим элемент по локатору и выбираем нужный
+    wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
+  }
+
   // выбор контактов для удаления и нажатие кнопки "Delete"
   public void deleteSelectedContacts() {
+    click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
+    //закрытие диалогового окна (alert)
+    wd.switchTo().alert().accept();
+  }
+  // метод для удаления контакта по идентификатору
+  public void delete(ContactGroupData contact) {
+    // Отмечаем чек-боксами группы контактов для удаления
+    // В качестве index передаем идентификатор, который нужно выбрать
+    selectContactById(contact.getId());
     click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
     //закрытие диалогового окна (alert)
     wd.switchTo().alert().accept();
@@ -76,6 +92,22 @@ public class ContactHelper extends HelperBase {
     //wd.findElements(By.xpath("//div[@id='content']/form[1]")).get(index).click();
     click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
     //click(By.xpath("//div[@id='content']/form[1]"));
+  }
+
+  public void modify(ContactGroupData contact) {
+    // выбираем контакт для модификации
+    selectContactById(contact.getId());
+    // Открываем контакт на редактирование по кнопке с карандашом
+    // В качестве index передаем порядковый номер элемента, который нужно выбрать
+    updateSelectedContacts();
+    // Редактируем контакт (меняем значения полей);
+    // в качестве значения group передаем значение null, т.к. при модификации контактак изменить группу нельзя
+    // в качестве значения creation передаем false, т.к. на форме редактирования контакта поле new_group отсутствует
+    fillContactForm(contact, false);
+    // Нажимаем кнопку "Update"
+    updateContact();
+    // Возвращаемся к списку всех контактов
+    returnToHomePage();
   }
 
   // метод выполняющий нажатие кнопки "update" при модификации контакта
@@ -115,11 +147,34 @@ public class ContactHelper extends HelperBase {
       String firstName = cells.get(2).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       // создаем обект ContactGroupData и заполняем его значениями
-      ContactGroupData contact = new ContactGroupData(id, firstName, null, lastName, null, null, null, null, null, "test1");
+      ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName).withAddress(null).withEmail(null).withHome(null).withMobile(null).withWork(null).withGroup("test1");
       // добавляем созданный объект в список
       contacts.add(contact);
     }
     // возвращаем лист с контактами
+    return contacts;
+  }
+
+  // Формируем множество
+  public Contacts all() {
+    Contacts contacts = new Contacts();
+    // заполняем лист значениями с веб-страницы
+    // получаем список строк таблицы
+    List<WebElement> elements = wd.findElements(By.name("entry"));
+    // проходим по всем строкам в цикле
+    for (WebElement element : elements) {
+      // каждую строку разбиваем на ячейки
+      List<WebElement> cells = element.findElements(By.tagName("td"));
+      // из этого списка по номеру столбца берем нужные ячейки и получаем их текст
+      String lastName = cells.get(1).getText();
+      String firstName = cells.get(2).getText();
+      int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+      // создаем обект ContactGroupData и заполняем его значениями
+      ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName).withAddress(null).withEmail(null).withHome(null).withMobile(null).withWork(null).withGroup("test1");
+      // добавляем созданный объект в список
+      contacts.add(contact);
+    }
+    // возвращаем множество с контактами
     return contacts;
   }
 }

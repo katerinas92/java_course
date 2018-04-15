@@ -1,55 +1,45 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
+import ru.stqa.pft.addressbook.model.Contacts;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
-import java.util.Comparator;
-import java.util.List;
 
 public class ContactModificationTests extends TestBase {
 
-  @Test
-  public void testContactModificationTests() {
+  @BeforeMethod
+  public void ensurePreconditions() {
     // Проверяем, есть ли хотя бы один контакт, который можно удалить
     // Если его нет, то
-    if (! app.getContactHelper().isThereAContact()) {
+    if (app.contact().all().size() == 0) {
       // Выбираем пункт меню "add new"
       app.goTo().gotoContactPage();
       // создаем новый контакт
-      app.getContactHelper().createContact(new ContactGroupData("Suslova", "Igorevna", "Ekaterina", "Russia", "e_suslova@mail.ru", "12-12-12", "999-999-999-99", "123-123-456", "test1"));
+      app.contact().createContact(new ContactGroupData().withFirstname("Suslova").withMiddlename("Igorevna").withLastname("Ekaterina").withAddress("Russia").withEmail("e_suslova@mail.ru").withHome("12-12-12").withMobile("999-999-999-99").withWork("123-123-456").withGroup("test1"));
     }
-    // Формируем список из контактов до модификации
-    List<ContactGroupData> before = app.getContactHelper().getContactList();
-    // Открываем контакт на редактирование по кнопке с карандашом
-    // В качестве index передаем порядковый номер элемента, который нужно выбрать
-    app.getContactHelper().updateSelectedContacts();
-    // Редактируем контакт (меняем значения полей);
-    // в качестве значения group передаем значение null, т.к. при модификации контактак изменить группу нельзя
-    // в качестве значения creation передаем false, т.к. на форме редактирования контакта поле new_group отсутствует
-    ContactGroupData contact = new ContactGroupData(before.get(before.size() - 1).getId(), "Ivanov", "Ivanovich","Ivan", "USA", "test@mail.ru", "33-33-33", "65-65-65", null, "test1");
-    // Редактируем контакт (меняем значения полей);
-    // в качестве значения group передаем значение null, т.к. при модификации контактак изменить группу нельзя
-    // в качестве значения creation передаем false, т.к. на форме редактирования контакта поле new_group отсутствует
-    app.getContactHelper().fillContactForm(contact, false);
-    // Нажимаем кнопку "Update"
-    app.getContactHelper().updateContact();
-    // Возвращаемся к списку всех контактов
-    app.getContactHelper().returnToHomePage();
+  }
 
-    // Формируем список из контактов после модификации
-    List<ContactGroupData> after = app.getContactHelper().getContactList();
+  @Test
+  public void testContactModificationTests() {
+    // Формируем множество из контактов до модификации
+    Contacts before = app.contact().all();
+    // вычисляем группу для модификации из множества случайным образом
+    ContactGroupData modifiedContact = before.iterator().next();
+    // Редактируем контакт (меняем значения полей);
+    // в качестве значения group передаем значение null, т.к. при модификации контактак изменить группу нельзя
+    // в качестве значения creation передаем false, т.к. на форме редактирования контакта поле new_group отсутствует
+    ContactGroupData contact = new ContactGroupData().withId(modifiedContact.getId()).withFirstname("Ivanov").withMiddlename("Ivanovich").withLastname("Ivan").withAddress("USA").withEmail("ivani@mail.ru").withHome("333-333").withMobile("111-111-111-11").withWork("22-22-22").withGroup("test1");
+    // запускаем метод для модификации контакта
+    app.contact().modify(contact);
+    // Формируем множество из контактов после модификации
+    Contacts after = app.contact().all();
     // проверяем, что количество контактов после редактирования не изменилось
-    Assert.assertEquals(after.size(), before.size());
-    // удаляем из листа before первый элемент, который редактировался
-    before.remove(0);
-    before.add(contact);
-    // сортируем списки с помощью компаратора и функции sort()
-    Comparator<? super ContactGroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-    // сортируем старый и новый списки
-    before.sort(byId);
-    after.sort(byId);
-    // сравниваем отсортированные списки с контактами
-    Assert.assertEquals(before, after);
+    assertEquals(after.size(), before.size());
+    // сравниваем отсортированные множества
+    assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
   }
 }

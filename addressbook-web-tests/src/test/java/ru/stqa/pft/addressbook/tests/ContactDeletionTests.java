@@ -1,37 +1,43 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
-
-import java.util.List;
+import ru.stqa.pft.addressbook.model.Contacts;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 // Тест для удаления контакта
 public class ContactDeletionTests extends TestBase {
 
-  @Test
-  public void testContactDeletion() {
+  @BeforeMethod
+  public void ensurePreconditions() {
     // Проверяем, есть ли хотя бы один контакт, который можно удалить
     // Если его нет, то
-    if (! app.getContactHelper().isThereAContact()) {
+    if (app.contact().all().size() == 0) {
+      // Выбираем пункт меню "add new"
+      app.goTo().gotoContactPage();
       // создаем новый контакт
-      app.getContactHelper().createContact(new ContactGroupData("Suslova", "Igorevna", "Ekaterina", "Russia", "e_suslova@mail.ru", "12-12-12", "999-999-999-99", "123-123-456", "test1"));
+      app.contact().createContact(new ContactGroupData().withFirstname("Suslova").withMiddlename("Igorevna").withLastname("Ekaterina").withAddress("Russia").withEmail("e_suslova@mail.ru").withHome("12-12-12").withMobile("999-999-999-99").withWork("123-123-456").withGroup("test1"));
     }
-    // Формируем список из контактов до удаления контакта
-    List<ContactGroupData> before = app.getContactHelper().getContactList();
-    // Отмечаем чек-боксами контакты для удаления
-    app.getContactHelper().selectContact(before.size() - 1);
+  }
+
+  @Test
+  public void testContactDeletion() {
+    // Формируем множество из контактов до удаления контакта
+    Contacts before = app.contact().all();
+    // вычисляем контакт для удаления из множества случайным образом
+    ContactGroupData deletedContact = before.iterator().next();
     // и удаляем их по кнопке "Delete"
-    app.getContactHelper().deleteSelectedContacts();
+    app.contact().delete(deletedContact);
     // Возвращаемся к списку всех контактов; видим, что выбранная группа удалена
     app.goTo().goToHomePage();
-    // Формируем список из групп после создания новой
-    List<ContactGroupData> after = app.getContactHelper().getContactList();
+    // Формируем множество из групп после создания новой
+    Contacts after = app.contact().all();
     // проверяем, что количество групп после удаления увеличилось на 1
-    Assert.assertEquals(after.size(), before.size() - 1);
-    // удаляем последний элемент листа
-    before.remove(before.size() - 1);
-    // с помощью assertEquals проверяем, что элементы в листах совпадают
-    Assert.assertEquals(before, after);
+    assertEquals(after.size(), before.size() - 1);
+    // удаляем выбранный элемент множества и проверяем, что элементы в множествах совпадают
+    assertThat(after, equalTo(before.withOut(deletedContact)));
   }
 }

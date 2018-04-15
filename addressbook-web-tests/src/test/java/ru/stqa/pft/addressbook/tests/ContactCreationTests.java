@@ -1,36 +1,30 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
-
-import java.util.Comparator;
-import java.util.List;
+import ru.stqa.pft.addressbook.model.Contacts;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 // Тест для создания нового контакта
 public class ContactCreationTests extends TestBase {
 
     @Test
     public void testContactCreation() {
-        // Формируем список из контактов до создания нового
-        List<ContactGroupData> before = app.getContactHelper().getContactList();
+        // Формируем множество из контактов до создания нового
+       Contacts before = app.contact().all();
         // Задаем значения для нового контакта
-        ContactGroupData contact = new ContactGroupData("Suslova", "Igorevna", "Ekaterina", "Russia", "e_suslova@mail.ru", "12-12-12", "999-999-999-99", "123-123-456", "test1");
+        ContactGroupData contact = new ContactGroupData().withFirstname("Suslova").withMiddlename("Igorevna").withLastname("Ekaterina").withAddress("Russia").withEmail("e_suslova@mail.ru").withHome("12-12-12").withMobile("999-999-999-99").withWork("123-123-456").withGroup("test1");
         // Выбираем пункт меню "add new"
         app.goTo().gotoContactPage();
-        app.getContactHelper().createContact(contact);
-        // Формируем список из контактов после создания нового
-        List<ContactGroupData> after = app.getContactHelper().getContactList();
-        // проверяем, что количество контактов после добавления увеличилось на 1
-        Assert.assertEquals(after.size(), before.size() + 1);
-        // добавляем новый контакт в лист before
-        before.add(contact);
-        // сортируем списки с помощью компаратора и функции sort()
-        Comparator<? super ContactGroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-        // сортируем старый и новый списки
-        before.sort(byId);
-        after.sort(byId);
-        // сравниваем отсортированные списки контактов
-        Assert.assertEquals(before, after);
+        app.contact().createContact(contact);
+        // Формируем множество из контактов после создания нового
+        Contacts after = app.contact().all();
+        // проверка, что количество контактов после добавления увеличилось на 1 с помощью hamcrest
+        assertThat(after.size(), equalTo(before.size()+1));
+        // вычисляем максимальный идентификатор среди контактов в множестве
+        // и сравниваем множества с помощью hamcrest
+        assertThat(after, equalTo(
+                before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
 }
