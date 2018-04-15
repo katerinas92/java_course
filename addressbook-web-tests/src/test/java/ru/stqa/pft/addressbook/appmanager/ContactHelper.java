@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
 import ru.stqa.pft.addressbook.model.Contacts;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,9 @@ public class ContactHelper extends HelperBase {
     // обращение к конструктору базового класса
     super(wd);
   }
+
+  // создаем кэш данных
+  private Contacts contactCache = null;
 
   // метод выполняющий нажатие кнопки "Enter" при создании нового контакта
   public void submitContactCreation() {
@@ -84,6 +86,7 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
     //закрытие диалогового окна (alert)
     wd.switchTo().alert().accept();
+    contactCache = null;
   }
 
   // выбор контакта на редактирование
@@ -106,6 +109,7 @@ public class ContactHelper extends HelperBase {
     fillContactForm(contact, false);
     // Нажимаем кнопку "Update"
     updateContact();
+    contactCache = null;
     // Возвращаемся к списку всех контактов
     returnToHomePage();
   }
@@ -127,6 +131,7 @@ public class ContactHelper extends HelperBase {
     fillContactForm(contact, true);
     // Нажимаем кнопку "Enter" для создания нового контакта
     submitContactCreation();
+    contactCache = null;
     // Возвращаемся к списку всех контактов
     returnToHomePage();
   }
@@ -157,7 +162,10 @@ public class ContactHelper extends HelperBase {
 
   // Формируем множество
   public Contacts all() {
-    Contacts contacts = new Contacts();
+    if (contactCache != null) {
+      return new Contacts(contactCache);
+    }
+    contactCache = new Contacts();
     // заполняем лист значениями с веб-страницы
     // получаем список строк таблицы
     List<WebElement> elements = wd.findElements(By.name("entry"));
@@ -172,9 +180,9 @@ public class ContactHelper extends HelperBase {
       // создаем обект ContactGroupData и заполняем его значениями
       ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName).withAddress(null).withEmail(null).withHome(null).withMobile(null).withWork(null).withGroup("test1");
       // добавляем созданный объект в список
-      contacts.add(contact);
+      contactCache.add(contact);
     }
     // возвращаем множество с контактами
-    return contacts;
+    return new Contacts(contactCache);
   }
 }

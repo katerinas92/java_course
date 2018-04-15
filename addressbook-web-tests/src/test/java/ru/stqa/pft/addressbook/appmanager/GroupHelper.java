@@ -5,11 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 // класс, который помогает работать с набором групп данных (заполняемых полей веб-приложения)
 public class GroupHelper extends HelperBase {
@@ -18,6 +15,9 @@ public class GroupHelper extends HelperBase {
     // обращение к конструктору базового класса
     super(wd);
   }
+
+  // создаем кэш данных
+  private Groups groupCache = null;
 
   // метод выполняющий возвращение в общий список групп после создания группы контактов
   public void returnToGroupPage() {
@@ -80,6 +80,7 @@ public class GroupHelper extends HelperBase {
     fillGroupForm(group);
     // Нажимаем кнопку "Enter information" для создания новой группы
     submitGroupCreation();
+    groupCache = null;
     // Возвращаемся к списку всех групп; видим созданную группу
     returnToGroupPage();
   }
@@ -95,6 +96,7 @@ public class GroupHelper extends HelperBase {
     fillGroupForm(group);
     // Нажимаем кнопку "Update"
     submitGroupModification();
+    groupCache = null;
     // Возвращаемся к списку всех групп
     returnToGroupPage();
   }
@@ -117,6 +119,7 @@ public class GroupHelper extends HelperBase {
     selectGroupById(group.getId());
     // и удаляем их по кнопке "Delete group(s)"
     deleteSelectedGroups();
+    groupCache = null;
     // Возвращаемся к списку всех групп; видим, что выбранная группа удалена
     returnToGroupPage();
   }
@@ -156,7 +159,10 @@ public class GroupHelper extends HelperBase {
 
   // Формируем множество
   public Groups all() {
-    Groups groups = new Groups();
+    if (groupCache != null) {
+      return new Groups(groupCache);
+    }
+    groupCache = new Groups();
     // заполняем лист значениями с веб-страницы
     // находим все элементы, которые имеют тег span и класс group
     List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
@@ -169,9 +175,9 @@ public class GroupHelper extends HelperBase {
       // создаем обект GroupData и заполняем его значениями
       GroupData group = new GroupData().withId(id).withName(name);
       // добавляем созданный объект в список
-      groups.add(group);
+      groupCache.add(group);
     }
     // возвращаем лист с группами
-    return groups;
+    return new Groups(groupCache);
   }
 }
