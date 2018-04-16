@@ -19,7 +19,7 @@ public class ContactDeletionTests extends TestBase {
       // Выбираем пункт меню "add new"
       app.goTo().gotoContactPage();
       // создаем новый контакт
-      app.contact().createContact(new ContactGroupData().withFirstname("Suslova").withMiddlename("Igorevna").withLastname("Ekaterina").withAddress("Russia").withEmail("e_suslova@mail.ru").withHome("12-12-12").withMobile("999-999-999-99").withWork("123-123-456").withGroup("test1"));
+      app.contact().createContact(new ContactGroupData().withFirstname("Suslova").withMiddlename("Igorevna").withLastname("Ekaterina").withAddress("Russia").withEmail1("e_suslova@mail.ru").withHome("12-12-12").withMobile("999-999-999-99").withWork("123-123-456").withGroup("test1"));
     }
   }
 

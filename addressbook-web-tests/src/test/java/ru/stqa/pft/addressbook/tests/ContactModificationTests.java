@@ -19,7 +19,7 @@ public class ContactModificationTests extends TestBase {
       // Выбираем пункт меню "add new"
       app.goTo().gotoContactPage();
       // создаем новый контакт
-      app.contact().createContact(new ContactGroupData().withFirstname("Suslova").withMiddlename("Igorevna").withLastname("Ekaterina").withAddress("Russia").withEmail("e_suslova@mail.ru").withHome("12-12-12").withMobile("999-999-999-99").withWork("123-123-456").withGroup("test1"));
+      app.contact().createContact(new ContactGroupData().withFirstname("Suslova").withMiddlename("Igorevna").withLastname("Ekaterina").withAddress("Russia").withEmail1("e_suslova@mail.ru").withHome("12-12-12").withMobile("999-999-999-99").withWork("123-123-456").withGroup("test1"));
     }
   }
 
@@ -32,7 +32,7 @@ public class ContactModificationTests extends TestBase {
     // Редактируем контакт (меняем значения полей);
     // в качестве значения group передаем значение null, т.к. при модификации контактак изменить группу нельзя
     // в качестве значения creation передаем false, т.к. на форме редактирования контакта поле new_group отсутствует
-    ContactGroupData contact = new ContactGroupData().withId(modifiedContact.getId()).withFirstname("Ivanov").withMiddlename("Ivanovich").withLastname("Ivan").withAddress("USA").withEmail("ivani@mail.ru").withHome("333-333").withMobile("111-111-111-11").withWork("22-22-22").withGroup("test1");
+    ContactGroupData contact = new ContactGroupData().withId(modifiedContact.getId()).withFirstname("Ivanov").withMiddlename("Ivanovich").withLastname("Ivan").withAddress("USA").withEmail1("ivani@mail.ru").withHome("333-333").withMobile("111-111-111-11").withWork("22-22-22").withGroup("test1");
     // запускаем метод для модификации контакта
     app.contact().modify(contact);
     // Формируем множество из контактов после модификации

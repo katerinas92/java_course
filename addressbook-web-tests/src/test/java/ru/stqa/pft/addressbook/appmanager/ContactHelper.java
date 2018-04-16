@@ -40,7 +40,9 @@ public class ContactHelper extends HelperBase {
     type(By.name("middlename"), contactData.getMiddlename());
     type(By.name("lastname"), contactData.getLastname());
     type(By.name("address"), contactData.getAddress());
-    type(By.name("email"), contactData.getEmail());
+    type(By.name("email"), contactData.getEmail1());
+    type(By.name("email2"), contactData.getEmail2());
+    type(By.name("email3"), contactData.getEmail3());
     type(By.name("home"), contactData.getHome());
     type(By.name("mobile"), contactData.getMobile());
     type(By.name("work"), contactData.getWork());
@@ -152,7 +154,7 @@ public class ContactHelper extends HelperBase {
       String firstName = cells.get(2).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       // создаем обект ContactGroupData и заполняем его значениями
-      ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName).withAddress(null).withEmail(null).withHome(null).withMobile(null).withWork(null).withGroup("test1");
+      ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName).withAddress(null).withEmail1(null).withHome(null).withMobile(null).withWork(null).withGroup("test1");
       // добавляем созданный объект в список
       contacts.add(contact);
     }
@@ -176,12 +178,14 @@ public class ContactHelper extends HelperBase {
       // из этого списка по номеру столбца берем нужные ячейки и получаем их текст
       String lastName = cells.get(1).getText();
       String firstName = cells.get(2).getText();
+      String address = cells.get(3).getText();
       // разбиваем строку на фрагменты и в качестве разделителя используем некоторые регулярные выражения
+      String allEmails = cells.get(4).getText();
       String allPhones = cells.get(5).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       // создаем обект ContactGroupData и заполняем его значениями
       ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName)
-              .withAddress(null).withEmail(null).withAllPhones(allPhones).withGroup("test1");
+              .withAddress(address).withAllEmails(allEmails).withAllPhones(allPhones).withGroup("test1");
       // добавляем созданный объект в список
       contactCache.add(contact);
     }
@@ -196,14 +200,18 @@ public class ContactHelper extends HelperBase {
     // извлекаем из полей формы нужные значения с помощью getAttribute("value")
     String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
     String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+    String address = wd.findElement(By.name("address")).getAttribute("value");
     String home = wd.findElement(By.name("home")).getAttribute("value");
     String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
     String work = wd.findElement(By.name("work")).getAttribute("value");
+    String email1 = wd.findElement(By.name("email")).getAttribute("value");
+    String email2 = wd.findElement(By.name("email2")).getAttribute("value");
+    String email3 = wd.findElement(By.name("email3")).getAttribute("value");
     //
     wd.navigate().back();
     // строим объект ContactGroupData, в котором заполняются атрибуты полученными значениями
-    return new ContactGroupData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
-            .withHome(home).withMobile(mobile).withWork(work);
+    return new ContactGroupData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).withAddress(address)
+            .withHome(home).withMobile(mobile).withWork(work).withEmail1(email1).withEmail2(email2).withEmail3(email3);
   }
 
   // метод получения идентификатора контакта
