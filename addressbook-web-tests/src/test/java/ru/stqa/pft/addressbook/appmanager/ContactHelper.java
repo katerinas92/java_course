@@ -94,15 +94,10 @@ public class ContactHelper extends HelperBase {
 
   // выбор контакта на редактирование
   public void updateSelectedContacts() {
-    //wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img")).get(index).click();
-    //wd.findElements(By.xpath("//div[@id='content']/form[1]")).get(index).click();
     click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
-    //click(By.xpath("//div[@id='content']/form[1]"));
   }
 
   public void modify(ContactGroupData contact) {
-    // выбираем контакт для модификации
-    selectContactById(contact.getId());
     // Открываем контакт на редактирование по кнопке с карандашом
     // В качестве index передаем порядковый номер элемента, который нужно выбрать
     updateSelectedContacts();
