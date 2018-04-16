@@ -95,12 +95,15 @@ public class ContactHelper extends HelperBase {
   // выбор контакта на редактирование
   public void updateSelectedContacts() {
     click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+    //wd.findElements(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img")).get(index).click();
+    //wd.findElements(By.xpath("//div[@id='content']/form[1]")).get(index).click();
+
+    //click(By.xpath("//div[@id='content']/form[1]"));
   }
 
   public void modify(ContactGroupData contact) {
     // Открываем контакт на редактирование по кнопке с карандашом
-    // В качестве index передаем порядковый номер элемента, который нужно выбрать
-    updateSelectedContacts();
+    initContactModificationById(contact.getId());
     // Редактируем контакт (меняем значения полей);
     // в качестве значения group передаем значение null, т.к. при модификации контактак изменить группу нельзя
     // в качестве значения creation передаем false, т.к. на форме редактирования контакта поле new_group отсутствует
