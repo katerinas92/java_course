@@ -177,11 +177,11 @@ public class ContactHelper extends HelperBase {
       String lastName = cells.get(1).getText();
       String firstName = cells.get(2).getText();
       // разбиваем строку на фрагменты и в качестве разделителя используем некоторые регулярные выражения
-      String[] phones = cells.get(5).getText().split("\n");
+      String allPhones = cells.get(5).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       // создаем обект ContactGroupData и заполняем его значениями
       ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName)
-              .withAddress(null).withEmail(null).withHome(phones[0]).withMobile(phones[1]).withWork(phones[2]).withGroup("test1");
+              .withAddress(null).withEmail(null).withAllPhones(allPhones).withGroup("test1");
       // добавляем созданный объект в список
       contactCache.add(contact);
     }
