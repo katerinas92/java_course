@@ -176,13 +176,54 @@ public class ContactHelper extends HelperBase {
       // из этого списка по номеру столбца берем нужные ячейки и получаем их текст
       String lastName = cells.get(1).getText();
       String firstName = cells.get(2).getText();
+      // разбиваем строку на фрагменты и в качестве разделителя используем некоторые регулярные выражения
+      String[] phones = cells.get(5).getText().split("\n");
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       // создаем обект ContactGroupData и заполняем его значениями
-      ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName).withAddress(null).withEmail(null).withHome(null).withMobile(null).withWork(null).withGroup("test1");
+      ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName)
+              .withAddress(null).withEmail(null).withHome(phones[0]).withMobile(phones[1]).withWork(phones[2]).withGroup("test1");
       // добавляем созданный объект в список
       contactCache.add(contact);
     }
     // возвращаем множество с контактами
     return new Contacts(contactCache);
+  }
+
+  //
+  public ContactGroupData infoFromEditForm(ContactGroupData contact) {
+    // выбираем контакт по идентификатору
+    initContactModificationById(contact.getId());
+    // извлекаем из полей формы нужные значения с помощью getAttribute("value")
+    String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+    String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+    String home = wd.findElement(By.name("home")).getAttribute("value");
+    String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+    String work = wd.findElement(By.name("work")).getAttribute("value");
+    //
+    wd.navigate().back();
+    // строим объект ContactGroupData, в котором заполняются атрибуты полученными значениями
+    return new ContactGroupData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
+            .withHome(home).withMobile(mobile).withWork(work);
+  }
+
+  // метод получения идентификатора контакта
+  private void initContactModificationById(int id) {
+                    // 1-ый способ - длинный
+    // находим чекбокс: элемент с именем input и атрибут value равный заданому значению
+    WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s'", id)));
+    // выполняем поиск относительно этого чекбокса по xpath запросу: переходим к родителю
+    WebElement row = checkbox.findElement(By.xpath("./../.."));
+    // берем полный список ячеек и ищем внутри строки все элементы с именем td
+    List<WebElement> cells = row.findElements(By.tagName("td"));
+    // среди этих ячеек берем по номеру нужную (8 столбец), внутри этой ячейки находим тэг с именем а и кликаем на нее
+    cells.get(7).findElement(By.tagName("a")).click();
+
+                  // еще способы - через xpath и href
+    // сначала находим чекбокс (//input[value='%s']), затем относительно чекбокса поднимаемся на 2 уровня вверх (/../../) и в этой строке ищем 8 ячейку (td[8]) и внутри ячейки ищем кнопку с карандашом (/a)
+    // wd.findElement(By.xpath(String.format("//input[value='%s']/../../td[8]/a", id))).click();
+    // находим чекбокс, в которой есть строка с заданным идентификатором
+    // wd.findElement(By.xpath(String.format("//tr[.//input[value='%s']]/td[8]/a", id))).click();
+    // поиск по атрибуту href и кликаем прямо по ссылке
+    // wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
   }
 }
