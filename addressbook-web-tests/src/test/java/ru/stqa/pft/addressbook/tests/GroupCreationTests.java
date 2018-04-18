@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,13 +17,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class GroupCreationTests extends TestBase {
 
   @DataProvider
-  public Iterator<Object[]> validGroups() {
+  public Iterator<Object[]> validGroups() throws IOException {
     // Заполняем список массивом. Каждый массив содержит набор данных для одного запуска тестового метода.
     List<Object[]> list = new ArrayList<Object[]>();
     // Передаем в тест массивы с данными.
-    list.add(new Object[] {new GroupData().withName("test1").withHeader("header1").withFooter("footer1")});
-    list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")});
-    list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")});
+    // list.add(new Object[] {new GroupData().withName("test1").withHeader("header1").withFooter("footer1")});
+    // list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")});
+    // list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")});
+    // Или считываем набор данных из csv файла
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.csv")));
+    String line = reader.readLine();
+    // считываем данные из файла, пока не закончатся строки
+    while (line != null) {
+      // считываем данные через разделитель ;
+      String[] split = line.split(";");
+      // создаем массив, который состоит из одного элемента и помещаем его в список
+      list.add(new Object[] {new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
+      line = reader.readLine();
+    }
     // Возвращаем итератор этого списка
     return list.iterator();
   }
