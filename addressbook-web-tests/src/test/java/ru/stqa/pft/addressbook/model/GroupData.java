@@ -1,6 +1,14 @@
 package ru.stqa.pft.addressbook.model;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+// Задаем названия для тэгов XML файла
+@XStreamAlias("group")
+
 public class GroupData {
+  // указываем, что поле ID не должно сохраняться в XML файл
+  @XStreamOmitField
   private int id = Integer.MAX_VALUE;
   private String name;
   private String header;

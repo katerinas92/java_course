@@ -60,6 +60,8 @@ public class GroupDataGenerator {
   // сохраняем в файл XML; используется библиотека XSTREAM
   private void saveAsXml(List<GroupData> groups, File file) throws IOException {
     XStream xstream = new XStream();
+    // прочитать подсказки, которые прописаны в классе GroupData в @XStreamAlias
+    xstream.processAnnotations(GroupData.class);
     String xml = xstream.toXML(groups);
     Writer writer = new FileWriter(file);
     writer.write(xml);
