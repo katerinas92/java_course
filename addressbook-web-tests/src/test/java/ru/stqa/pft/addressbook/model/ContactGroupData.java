@@ -17,7 +17,6 @@ public class ContactGroupData {
   private String middlename;
   @Expose
   private String lastname;
-  @Expose
   private String address;
   private String email1;
   private String email2;
@@ -25,6 +24,7 @@ public class ContactGroupData {
   private String home;
   private String mobile;
   private String work;
+  @Expose
   private String group;
   private String allPhones;
   private String allEmails;

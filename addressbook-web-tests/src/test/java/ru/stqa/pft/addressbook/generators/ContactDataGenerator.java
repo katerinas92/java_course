@@ -55,7 +55,7 @@ public class ContactDataGenerator {
     List<ContactGroupData> contacts = new ArrayList<ContactGroupData>();
     for (int i = 0; i < count; i++) {
       contacts.add(new ContactGroupData().withFirstname(String.format("Morozova %s", i))
-              .withLastname(String.format("Maria %s", i)).withMiddlename(String.format("Andreevna %s", i)));
+              .withLastname(String.format("Maria %s", i)).withMiddlename(String.format("Andreevna %s", i)).withGroup(String.format("test%s", i+1)));
     }
     return contacts;
   }
@@ -87,7 +87,7 @@ public class ContactDataGenerator {
     Writer writer = new FileWriter(file);
     // проходим в цикле и записываем данные
     for (ContactGroupData contact : contacts) {
-      writer.write(String.format("%s;%s;%s\n", contact.getFirstname(), contact.getMiddlename(), contact.getLastname()));
+      writer.write(String.format("%s;%s;%s;%s\n", contact.getFirstname(), contact.getMiddlename(), contact.getLastname(), contact.getGroup()));
     }
     // закрываем файл
     writer.close();

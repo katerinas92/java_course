@@ -2,11 +2,13 @@
   {
     "firstname": "Morozova 0",
     "middlename": "Andreevna 0",
-    "lastname": "Maria 0"
+    "lastname": "Maria 0",
+    "group": "test1"
   },
   {
     "firstname": "Morozova 1",
     "middlename": "Andreevna 1",
-    "lastname": "Maria 1"
+    "lastname": "Maria 1",
+    "group": "test2"
   }
 ]
