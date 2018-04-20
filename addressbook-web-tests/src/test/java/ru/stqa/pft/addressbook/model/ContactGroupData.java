@@ -1,12 +1,23 @@
 package ru.stqa.pft.addressbook.model;
-
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import java.io.File;
 
+// Задаем названия для тэгов XML файла
+@XStreamAlias("contact")
+
 public class ContactGroupData {
+  // указываем, что поле ID не должно сохраняться в XML файл
+  @XStreamOmitField
   private int id = Integer.MAX_VALUE;
+  @Expose
   private String firstname;
+  @Expose
   private String middlename;
+  @Expose
   private String lastname;
+  @Expose
   private String address;
   private String email1;
   private String email2;
