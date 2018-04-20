@@ -1,5 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,8 +20,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 // Тест для создания новой группы контактов
 public class GroupCreationTests extends TestBase {
 
+  // загрузка данных из файла XML
   @DataProvider
-  public Iterator<Object[]> validGroups() throws IOException {
+  public Iterator<Object[]> validGroupsFromXml() throws IOException {
     // Заполняем список массивом. Каждый массив содержит набор данных для одного запуска тестового метода.
     List<Object[]> list = new ArrayList<Object[]>();
     // Передаем в тест массивы с данными.
@@ -48,8 +51,32 @@ public class GroupCreationTests extends TestBase {
     return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
+  // загрузка данных из файла JSON
+  @DataProvider
+  public Iterator<Object[]> validGroupsFromJson() throws IOException {
+    // Заполняем список массивом. Каждый массив содержит набор данных для одного запуска тестового метода.
+    List<Object[]> list = new ArrayList<Object[]>();
+    // Передаем в тест массивы с данными.
+    // list.add(new Object[] {new GroupData().withName("test1").withHeader("header1").withFooter("footer1")});
+    // list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")});
+    // list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")});
+    // Или считываем набор данных из csv файла
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")));
+    String json = "";
+    String line = reader.readLine();
+    // считываем данные из файла, пока не закончатся строки
+    while (line != null) {
+      json += line;
+      line = reader.readLine();
+    }
+    Gson gson = new Gson();
+    List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType());  //List<GroupData>.class
+    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+  }
+
   // тест на успешное создание новой группы
-  @Test(dataProvider = "validGroups")
+  // передаем в тест имя провайдера, который будет подгружать данные из файлов
+  @Test(dataProvider = "validGroupsFromJson")
   public void testGroupCreation(GroupData group) {
     // Выбираем пункт меню "groups"
     app.goTo().groupPage();
