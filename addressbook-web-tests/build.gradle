@@ -13,3 +13,23 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
 
 }
+
+task testGroups(type: Test) {
+    useTestNG {
+        // указываем, какой файл с тестовым набором нужно использовать;
+        // его можно запустить потом в командной строке с помощью команд:
+        // gradlew testGroups - если запускаем первично
+        // gradlew cleanTest testGroups - если хотим запустить повторно ранее успешно выполненные тесты
+        suites 'src/tests/resources/testng-groups.xml'
+    }
+}
+
+task testContacts(type: Test) {
+    useTestNG {
+        // указываем, какой файл с тестовым набором нужно использовать;
+        // его можно запустить потом в командной строке с помощью команд:
+        // gradlew testContacts - если запускаем первично
+        // gradlew cleanTest testContacts - если хотим запустить повторно ранее успешно выполненные тесты
+        suites 'src/tests/resources/testng-contacts.xml'
+    }
+}

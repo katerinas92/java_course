@@ -18,3 +18,4 @@ gradle-app.setting
 
 # Ignoring .class files
 out/
+build/
