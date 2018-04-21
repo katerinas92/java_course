@@ -66,30 +66,30 @@ public class ContactDataGenerator {
     // прочитать подсказки, которые прописаны в классе GroupData в @XStreamAlias
     xstream.processAnnotations(ContactGroupData.class);
     String xml = xstream.toXML(contacts);
-    Writer writer = new FileWriter(file);
-    writer.write(xml);
-    writer.close();
+    // если используется конструкция try, то writer.close() можно не прописывать, закрытие writer-а произойдет автоматически
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(xml);
+    }
   }
 
   // сохраняем в файл JSON; используется библиотека GSON от Google
   private void saveAsJson(List<ContactGroupData> contacts, File file) throws IOException {
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
     String json = gson.toJson(contacts);
-    Writer writer = new FileWriter(file);
-    writer.write(json);
-    writer.close();
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(json);
+    }
   }
 
   // сохраняем в файл CSV
   // throws IOException означает, что во время работы метода может возникнуть искл.ситуация и обработка должна быть в main
   private void saveAsCsv(List<ContactGroupData> contacts, File file) throws IOException {
     System.out.println(new File(".").getAbsolutePath());
-    Writer writer = new FileWriter(file);
-    // проходим в цикле и записываем данные
-    for (ContactGroupData contact : contacts) {
-      writer.write(String.format("%s;%s;%s;%s\n", contact.getFirstname(), contact.getMiddlename(), contact.getLastname(), contact.getGroup()));
+    try (Writer writer = new FileWriter(file)) {
+      // проходим в цикле и записываем данные
+      for (ContactGroupData contact : contacts) {
+        writer.write(String.format("%s;%s;%s;%s\n", contact.getFirstname(), contact.getMiddlename(), contact.getLastname(), contact.getGroup()));
+      }
     }
-    // закрываем файл
-    writer.close();
   }
 }

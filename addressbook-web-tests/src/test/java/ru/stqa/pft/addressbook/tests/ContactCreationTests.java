@@ -31,18 +31,19 @@ public class ContactCreationTests extends TestBase {
     // list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")});
     // list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")});
     // Или считываем набор данных из csv файла
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")));
-    String xml = "";
-    String line = reader.readLine();
-    // считываем данные из файла, пока не закончатся строки
-    while (line != null) {
-      xml += line;
-      line = reader.readLine();
-    }
-    XStream xstream = new XStream();
-    xstream.processAnnotations(ContactGroupData.class);
-    List<ContactGroupData> contacts = (List<ContactGroupData>) xstream.fromXML(xml);
-    return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+     try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")))) {
+       String xml = "";
+       String line = reader.readLine();
+       // считываем данные из файла, пока не закончатся строки
+       while (line != null) {
+         xml += line;
+         line = reader.readLine();
+       }
+       XStream xstream = new XStream();
+       xstream.processAnnotations(ContactGroupData.class);
+       List<ContactGroupData> contacts = (List<ContactGroupData>) xstream.fromXML(xml);
+       return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
+     }
   }
 
   // загрузка данных из файла JSON
@@ -51,17 +52,18 @@ public class ContactCreationTests extends TestBase {
     // Заполняем список массивом. Каждый массив содержит набор данных для одного запуска тестового метода.
     List<Object[]> list = new ArrayList<Object[]>();
     // Считываем набор данных из csv файла
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")));
-    String json = "";
-    String line = reader.readLine();
-    // считываем данные из файла, пока не закончатся строки
-    while (line != null) {
-      json += line;
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")))) {
+      String json = "";
+      String line = reader.readLine();
+      // считываем данные из файла, пока не закончатся строки
+      while (line != null) {
+        json += line;
+        line = reader.readLine();
+      }
+      Gson gson = new Gson();
+      List<ContactGroupData> contacts = gson.fromJson(json, new TypeToken<List<ContactGroupData>>(){}.getType());  //List<GroupData>.class
+      return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
-    Gson gson = new Gson();
-    List<ContactGroupData> contacts = gson.fromJson(json, new TypeToken<List<ContactGroupData>>(){}.getType());  //List<GroupData>.class
-    return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
   // передаем в тест имя провайдера, который будет подгружать данные из файлов

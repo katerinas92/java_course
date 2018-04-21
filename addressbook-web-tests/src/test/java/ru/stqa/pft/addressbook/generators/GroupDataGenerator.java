@@ -67,31 +67,30 @@ public class GroupDataGenerator {
     // прочитать подсказки, которые прописаны в классе GroupData в @XStreamAlias
     xstream.processAnnotations(GroupData.class);
     String xml = xstream.toXML(groups);
-    Writer writer = new FileWriter(file);
-    writer.write(xml);
-    writer.close();
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(xml);
+    }
   }
 
   // сохраняем в файл JSON; используется библиотека GSON от Google
   private void saveAsJson(List<GroupData> groups, File file) throws IOException {
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
     String json = gson.toJson(groups);
-    Writer writer = new FileWriter(file);
-    writer.write(json);
-    writer.close();
+    // если используется конструкция try, то writer.close() можно не прописывать, закрытие writer-а произойдет автоматически
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(json);
+    }
   }
 
   // сохраняем в файл CSV
   // throws IOException означает, что во время работы метода может возникнуть искл.ситуация и обработка должна быть в main
   private void saveAsCsv(List<GroupData> groups, File file) throws IOException {
     System.out.println(new File(".").getAbsolutePath());
-    Writer writer = new FileWriter(file);
-    // проходим в цикле и записываем данные
-    for (GroupData group : groups) {
-      writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));
-    }
-    // закрываем файл
-    writer.close();
+     try (Writer writer = new FileWriter(file)) {
+       // проходим в цикле и записываем данные
+       for (GroupData group : groups) {
+         writer.write(String.format("%s;%s;%s\n", group.getName(), group.getHeader(), group.getFooter()));
+       }
+     }
   }
-
 }

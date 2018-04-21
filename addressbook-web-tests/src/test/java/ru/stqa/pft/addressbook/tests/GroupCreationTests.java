@@ -7,13 +7,11 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -30,25 +28,26 @@ public class GroupCreationTests extends TestBase {
     // list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")});
     // list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")});
     // Или считываем набор данных из csv файла
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")));
-    String xml = "";
-    String line = reader.readLine();
-    // считываем данные из файла, пока не закончатся строки
-    while (line != null) {
-      // for xml
-      xml += line;
-      line = reader.readLine();
-      // for csv
-      // считываем данные через разделитель ;
-      // String[] split = line.split(";");
-      // создаем массив, который состоит из одного элемента и помещаем его в список
-      // list.add(new Object[] {new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
-      // line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")))) {
+      String xml = "";
+      String line = reader.readLine();
+      // считываем данные из файла, пока не закончатся строки
+      while (line != null) {
+        // for xml
+        xml += line;
+        line = reader.readLine();
+        // for csv
+        // считываем данные через разделитель ;
+        // String[] split = line.split(";");
+        // создаем массив, который состоит из одного элемента и помещаем его в список
+        // list.add(new Object[] {new GroupData().withName(split[0]).withHeader(split[1]).withFooter(split[2])});
+        // line = reader.readLine();
+      }
+      XStream xstream = new XStream();
+      xstream.processAnnotations(GroupData.class);
+      List<GroupData> groups = (List<GroupData>) xstream.fromXML(xml);
+      return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
-    XStream xstream = new XStream();
-    xstream.processAnnotations(GroupData.class);
-    List<GroupData> groups = (List<GroupData>) xstream.fromXML(xml);
-    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
   // загрузка данных из файла JSON
@@ -61,17 +60,18 @@ public class GroupCreationTests extends TestBase {
     // list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")});
     // list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")});
     // Или считываем набор данных из csv файла
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")));
-    String json = "";
-    String line = reader.readLine();
-    // считываем данные из файла, пока не закончатся строки
-    while (line != null) {
-      json += line;
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")))) {
+      String json = "";
+      String line = reader.readLine();
+      // считываем данные из файла, пока не закончатся строки
+      while (line != null) {
+        json += line;
+        line = reader.readLine();
+      }
+      Gson gson = new Gson();
+      List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType());  //List<GroupData>.class
+      return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
-    Gson gson = new Gson();
-    List<GroupData> groups = gson.fromJson(json, new TypeToken<List<GroupData>>(){}.getType());  //List<GroupData>.class
-    return groups.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
   // тест на успешное создание новой группы
