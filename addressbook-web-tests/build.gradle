@@ -20,7 +20,15 @@ task testGroups(type: Test) {
         // его можно запустить потом в командной строке с помощью команд:
         // gradlew testGroups - если запускаем первично
         // gradlew cleanTest testGroups - если хотим запустить повторно ранее успешно выполненные тесты
-        suites 'src/tests/resources/testng-groups.xml'
+        suites 'src/test/resources/testng-groups.xml'
+    }
+    // чтобы передать имя браузера нужно в командной строке указать параметр gradlew -Pbrowser=firefox testGroups
+    if (project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    // передаем через параметр target имя файла, в котором лежат все конфигурационные настройки
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
     }
 }
 
@@ -30,6 +38,14 @@ task testContacts(type: Test) {
         // его можно запустить потом в командной строке с помощью команд:
         // gradlew testContacts - если запускаем первично
         // gradlew cleanTest testContacts - если хотим запустить повторно ранее успешно выполненные тесты
-        suites 'src/tests/resources/testng-contacts.xml'
+        suites 'src/test/resources/testng-contacts.xml'
+    }
+    // чтобы передать имя браузера нужно в командной строке указать параметр gradlew -Pbrowser=firefox testContacts
+    if (project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    // передаем через параметр target имя файла, в котором лежат все конфигурационные настройки
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
     }
 }
