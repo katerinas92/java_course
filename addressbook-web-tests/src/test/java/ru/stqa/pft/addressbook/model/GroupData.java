@@ -32,6 +32,7 @@ public class GroupData {
   // Связываем значение header объекта GroupData с полем group_header в таблице group_list
   @Expose
   @Column(name = "group_header")
+  @Type(type = "text")
   private String header;
 
   // Связываем значение footer объекта GroupData с полем group_footer в таблице group_list
