@@ -2,40 +2,69 @@ package ru.stqa.pft.addressbook.model;
 import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
 import java.io.File;
 
 // Задаем названия для тэгов XML файла
 @XStreamAlias("contact")
+// Связываем объект GroupData с таблицей group_list в БД
+@Entity
+@Table(name = "addressbook")
 
 public class ContactGroupData {
   // указываем, что поле ID не должно сохраняться в XML файл
   @XStreamOmitField
+  // Связываем значение id объекта GroupData с полем group_id в таблице group_list
+  @Id
+  @Column(name = "id")
   private int id = Integer.MAX_VALUE;
   @Expose
+  @Column(name = "firstname")
   private String firstname;
   @Expose
+  @Column(name = "middlename")
   private String middlename;
   @Expose
+  @Column(name = "lastname")
   private String lastname;
+  @Transient
   private String address;
+  @Transient
   private String email1;
+  @Transient
   private String email2;
+  @Transient
   private String email3;
+  @Column(name = "home")
+  @Type(type = "text")
   private String home;
+  @Column(name = "mobile")
+  @Type(type = "text")
   private String mobile;
+  @Column(name = "work")
+  @Type(type = "text")
   private String work;
+
   @Expose
+  // помечаем поле group transient - это значит, это поле не будет использоваться в выборке данных и сравнении
+  @Transient
   private String group;
+  @Transient
   private String allPhones;
+  @Transient
   private String allEmails;
-  private File photo;
+  @Column(name = "photo")
+  @Type(type = "text")
+  private String photo;
 
   public File getPhoto() {
-    return photo;
+    return new File(photo);
   }
 
   public ContactGroupData withPhoto(File photo) {
-    this.photo = photo;
+    this.photo = photo.getPath();
     return this;
   }
 
@@ -164,6 +193,16 @@ public class ContactGroupData {
   }
 
   @Override
+  public String toString() {
+    return "ContactGroupData{" +
+            "id=" + id +
+            ", firstname='" + firstname + '\'' +
+            ", middlename='" + middlename + '\'' +
+            ", lastname='" + lastname + '\'' +
+            '}';
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -183,12 +222,4 @@ public class ContactGroupData {
     return result;
   }
 
-  @Override
-  public String toString() {
-    return "ContactGroupData{" +
-            "id=" + id +
-            ", firstname='" + firstname + '\'' +
-            ", lastname='" + lastname + '\'' +
-            '}';
-  }
 }
