@@ -39,6 +39,6 @@ public class ContactModificationTests extends TestBase {
     // проверяем, что количество контактов после редактирования не изменилось
     assertEquals(after.size(), before.size());
     // сравниваем отсортированные множества
- //   assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
+    assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
   }
 }

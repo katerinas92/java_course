@@ -84,8 +84,8 @@ public class ContactCreationTests extends TestBase {
         assertThat(after.size(), equalTo(before.size()+1));
         // вычисляем максимальный идентификатор среди контактов в множестве
         // и сравниваем множества с помощью hamcrest
- /*       assertThat(after, equalTo(
-                before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt())))); */
+        assertThat(after, equalTo(
+                before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
     }
     // тест для определения текущей рабочей директории и соответствия того, что файл существует
     @Test (enabled = false)
