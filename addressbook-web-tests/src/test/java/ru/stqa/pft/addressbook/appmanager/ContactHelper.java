@@ -46,7 +46,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("home"), contactData.getHome());
     type(By.name("mobile"), contactData.getMobile());
     type(By.name("work"), contactData.getWork());
-    attach(By.name("photo"), contactData.getPhoto());
+    //attach(By.name("photo"), contactData.getPhoto());
 
     if (creation) {
       // выбор элемента из выпадающего списка

@@ -46,7 +46,6 @@ public class ContactGroupData {
   @Column(name = "work")
   @Type(type = "text")
   private String work;
-
   @Expose
   // помечаем поле group transient - это значит, это поле не будет использоваться в выборке данных и сравнении
   @Transient
@@ -193,16 +192,6 @@ public class ContactGroupData {
   }
 
   @Override
-  public String toString() {
-    return "ContactGroupData{" +
-            "id=" + id +
-            ", firstname='" + firstname + '\'' +
-            ", middlename='" + middlename + '\'' +
-            ", lastname='" + lastname + '\'' +
-            '}';
-  }
-
-  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
@@ -211,15 +200,41 @@ public class ContactGroupData {
 
     if (id != that.id) return false;
     if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-    return lastname != null ? lastname.equals(that.lastname) : that.lastname == null;
+    if (middlename != null ? !middlename.equals(that.middlename) : that.middlename != null) return false;
+    if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
+    if (address != null ? !address.equals(that.address) : that.address != null) return false;
+    if (email1 != null ? !email1.equals(that.email1) : that.email1 != null) return false;
+    if (email2 != null ? !email2.equals(that.email2) : that.email2 != null) return false;
+    if (email3 != null ? !email3.equals(that.email3) : that.email3 != null) return false;
+    if (home != null ? !home.equals(that.home) : that.home != null) return false;
+    if (mobile != null ? !mobile.equals(that.mobile) : that.mobile != null) return false;
+    return work != null ? work.equals(that.work) : that.work == null;
   }
 
   @Override
   public int hashCode() {
     int result = id;
     result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+    result = 31 * result + (middlename != null ? middlename.hashCode() : 0);
     result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+    result = 31 * result + (address != null ? address.hashCode() : 0);
+    result = 31 * result + (email1 != null ? email1.hashCode() : 0);
+    result = 31 * result + (email2 != null ? email2.hashCode() : 0);
+    result = 31 * result + (email3 != null ? email3.hashCode() : 0);
+    result = 31 * result + (home != null ? home.hashCode() : 0);
+    result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
+    result = 31 * result + (work != null ? work.hashCode() : 0);
     return result;
+  }
+
+  @Override
+  public String toString() {
+    return "ContactGroupData{" +
+            "id=" + id +
+            ", firstname='" + firstname + '\'' +
+            ", middlename='" + middlename + '\'' +
+            ", lastname='" + lastname + '\'' +
+            '}';
   }
 
 }

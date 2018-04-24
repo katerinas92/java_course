@@ -15,7 +15,7 @@ public class ContactDeletionTests extends TestBase {
   public void ensurePreconditions() {
     // Проверяем, есть ли хотя бы один контакт, который можно удалить
     // Если его нет, то
-    if (app.contact().all().size() == 0) {
+    if (app.db().contacts().size() == 0) {
       // Выбираем пункт меню "add new"
       app.goTo().gotoContactPage();
       // создаем новый контакт
@@ -26,7 +26,7 @@ public class ContactDeletionTests extends TestBase {
   @Test
   public void testContactDeletion() {
     // Формируем множество из контактов до удаления контакта
-    Contacts before = app.contact().all();
+    Contacts before = app.db().contacts();
     // вычисляем контакт для удаления из множества случайным образом
     ContactGroupData deletedContact = before.iterator().next();
     // и удаляем их по кнопке "Delete"
@@ -34,7 +34,7 @@ public class ContactDeletionTests extends TestBase {
     // Возвращаемся к списку всех контактов; видим, что выбранная группа удалена
     app.goTo().goToHomePage();
     // Формируем множество из групп после создания новой
-    Contacts after = app.contact().all();
+    Contacts after = app.db().contacts();
     // проверяем, что количество групп после удаления увеличилось на 1
     assertEquals(after.size(), before.size() - 1);
     // удаляем выбранный элемент множества и проверяем, что элементы в множествах совпадают

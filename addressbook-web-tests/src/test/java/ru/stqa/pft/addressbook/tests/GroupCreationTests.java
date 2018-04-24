@@ -85,13 +85,13 @@ public class GroupCreationTests extends TestBase {
     // Выбираем пункт меню "groups"
     app.goTo().groupPage();
     // Формируем множество из групп до создания новой
-    Groups before = app.group().all();
+    Groups before = app.db().groups();
     // Нажимаем кнопку "New group" для создания новой группы контактов; вызываем отдельный метод create()
     app.group().create(group);
     // проверка, что количество групп после добавления увеличилось на 1 с помощью hamcrest
     assertThat(app.group().count(), equalTo(before.size()+1));
     // Формируем список из групп после создания новой
-    Groups after = app.group().all();
+    Groups after = app.db().groups();
     // вычисляем максимальный идентификатор среди групп в множестве
     // и сравниваем множества с помощью hamcrest
     assertThat(after, equalTo(
@@ -104,7 +104,7 @@ public class GroupCreationTests extends TestBase {
     // Выбираем пункт меню "groups"
     app.goTo().groupPage();
     // Формируем множество из групп до создания новой
-    Groups before = app.group().all();
+    Groups before = app.db().groups();
     // Задаем значения для новой группы
     GroupData group = new GroupData().withName("test2'");
     // Нажимаем кнопку "New group" для создания новой группы контактов; вызываем отдельный метод create()
@@ -112,7 +112,7 @@ public class GroupCreationTests extends TestBase {
     // проверка, что количество групп после добавления увеличилось на 1 с помощью hamcrest
     assertThat(app.group().count(), equalTo(before.size()));
     // Формируем список из групп после создания новой
-    Groups after = app.group().all();
+    Groups after = app.db().groups();
     // вычисляем максимальный идентификатор среди групп в множестве
     // и сравниваем множества с помощью hamcrest
     assertThat(after, equalTo(before));
