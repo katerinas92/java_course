@@ -31,11 +31,17 @@ public class ContactGroupData {
   private String lastname;
   @Transient
   private String address;
-  @Transient
+  @Expose
+  @Column(name = "email")
+  @Type(type = "text")
   private String email1;
-  @Transient
+  @Expose
+  @Column(name = "email2")
+  @Type(type = "text")
   private String email2;
-  @Transient
+  @Expose
+  @Column(name = "email3")
+  @Type(type = "text")
   private String email3;
   @Column(name = "home")
   @Type(type = "text")
@@ -202,10 +208,7 @@ public class ContactGroupData {
     if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
     if (middlename != null ? !middlename.equals(that.middlename) : that.middlename != null) return false;
     if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
-    if (address != null ? !address.equals(that.address) : that.address != null) return false;
     if (email1 != null ? !email1.equals(that.email1) : that.email1 != null) return false;
-    if (email2 != null ? !email2.equals(that.email2) : that.email2 != null) return false;
-    if (email3 != null ? !email3.equals(that.email3) : that.email3 != null) return false;
     if (home != null ? !home.equals(that.home) : that.home != null) return false;
     if (mobile != null ? !mobile.equals(that.mobile) : that.mobile != null) return false;
     return work != null ? work.equals(that.work) : that.work == null;
@@ -217,10 +220,7 @@ public class ContactGroupData {
     result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
     result = 31 * result + (middlename != null ? middlename.hashCode() : 0);
     result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-    result = 31 * result + (address != null ? address.hashCode() : 0);
     result = 31 * result + (email1 != null ? email1.hashCode() : 0);
-    result = 31 * result + (email2 != null ? email2.hashCode() : 0);
-    result = 31 * result + (email3 != null ? email3.hashCode() : 0);
     result = 31 * result + (home != null ? home.hashCode() : 0);
     result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
     result = 31 * result + (work != null ? work.hashCode() : 0);
@@ -234,7 +234,10 @@ public class ContactGroupData {
             ", firstname='" + firstname + '\'' +
             ", middlename='" + middlename + '\'' +
             ", lastname='" + lastname + '\'' +
+            ", email1='" + email1 + '\'' +
+            ", home='" + home + '\'' +
+            ", mobile='" + mobile + '\'' +
+            ", work='" + work + '\'' +
             '}';
   }
-
 }

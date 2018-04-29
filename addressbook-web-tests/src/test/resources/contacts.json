@@ -3,12 +3,21 @@
     "firstname": "Morozova 0",
     "middlename": "Andreevna 0",
     "lastname": "Maria 0",
+    "email1": "test@mail.ru 0",
     "group": "test1"
   },
   {
     "firstname": "Morozova 1",
     "middlename": "Andreevna 1",
     "lastname": "Maria 1",
+    "email1": "test@mail.ru 1",
     "group": "test2"
+  },
+  {
+    "firstname": "Morozova 2",
+    "middlename": "Andreevna 2",
+    "lastname": "Maria 2",
+    "email1": "test@mail.ru 2",
+    "group": "test3"
   }
 ]

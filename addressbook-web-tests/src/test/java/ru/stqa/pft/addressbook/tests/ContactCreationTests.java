@@ -67,7 +67,7 @@ public class ContactCreationTests extends TestBase {
   }
 
   // передаем в тест имя провайдера, который будет подгружать данные из файлов
-  @Test(dataProvider = "validContactsFromJson")
+  @Test(dataProvider = "validContactsFromXml")
     public void testContactCreation(ContactGroupData contact) {
         // Формируем множество из контактов до создания нового
        Contacts before = app.db().contacts();
