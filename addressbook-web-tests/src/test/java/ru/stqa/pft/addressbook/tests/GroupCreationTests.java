@@ -116,5 +116,7 @@ public class GroupCreationTests extends TestBase {
     // вычисляем максимальный идентификатор среди групп в множестве
     // и сравниваем множества с помощью hamcrest
     assertThat(after, equalTo(before));
+    // метод для запуска проверки множеств групп через пользовательский интерфейс
+    verifyGroupListInUI();
   }
 }

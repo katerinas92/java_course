@@ -32,6 +32,10 @@ task testGroups(type: Test) {
     if (project.hasProperty('target')) {
         systemProperty 'target', "${target}"
     }
+    // передаем через параметр verifyUI значение true or false для того, чтобы выполнялась или не выполнялась проверка множества групп через пользовательский интерфейс
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${target}"
+    }
 }
 
 task testContacts(type: Test) {
@@ -49,5 +53,9 @@ task testContacts(type: Test) {
     // передаем через параметр target имя файла, в котором лежат все конфигурационные настройки
     if (project.hasProperty('target')) {
         systemProperty 'target', "${target}"
+    }
+    // передаем через параметр verifyUI значение true or false для того, чтобы выполнялась или не выполнялась проверка множества контактов через пользовательский интерфейс
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${target}"
     }
 }

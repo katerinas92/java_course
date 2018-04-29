@@ -36,5 +36,7 @@ public class GroupDeletionTests extends TestBase {
     Groups after = app.db().groups();
     // удаляем выбранный элемент множества и проверяем, что элементы в множествах совпадают
     assertThat(after, equalTo(before.withOut(deletedGroup)));
+    // метод для запуска проверки множеств групп через пользовательский интерфейс
+    verifyGroupListInUI();
   }
 }

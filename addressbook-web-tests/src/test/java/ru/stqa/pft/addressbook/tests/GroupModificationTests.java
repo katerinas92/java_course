@@ -36,5 +36,7 @@ public class GroupModificationTests extends TestBase {
     Groups after = app.db().groups();
     // сравниваем отсортированные группы
     assertThat(after, equalTo(before.withOut(modifiedGroup).withAdded(group)));
+    // метод для запуска проверки множеств групп через пользовательский интерфейс
+    verifyGroupListInUI();
   }
 }

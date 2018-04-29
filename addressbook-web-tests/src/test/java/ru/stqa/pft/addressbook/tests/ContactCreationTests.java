@@ -86,6 +86,8 @@ public class ContactCreationTests extends TestBase {
         // и сравниваем множества с помощью hamcrest
         assertThat(after, equalTo(
                 before.withAdded(contact.withId(after.stream().mapToInt((g) -> g.getId()).max().getAsInt()))));
+    // метод для запуска проверки множеств контактов через пользовательский интерфейс
+    verifyContactListInUI();
     }
     // тест для определения текущей рабочей директории и соответствия того, что файл существует
     @Test (enabled = false)

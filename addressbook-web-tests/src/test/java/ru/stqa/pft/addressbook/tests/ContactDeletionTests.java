@@ -39,5 +39,7 @@ public class ContactDeletionTests extends TestBase {
     assertEquals(after.size(), before.size() - 1);
     // удаляем выбранный элемент множества и проверяем, что элементы в множествах совпадают
     assertThat(after, equalTo(before.withOut(deletedContact)));
+    // метод для запуска проверки множеств контактов через пользовательский интерфейс
+    verifyContactListInUI();
   }
 }

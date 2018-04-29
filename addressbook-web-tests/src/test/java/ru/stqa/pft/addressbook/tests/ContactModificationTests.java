@@ -40,5 +40,7 @@ public class ContactModificationTests extends TestBase {
     assertEquals(after.size(), before.size());
     // сравниваем отсортированные множества
     assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
+    // метод для запуска проверки множеств контактов через пользовательский интерфейс
+    verifyContactListInUI();
   }
 }
