@@ -7,12 +7,14 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
 //import ru.stqa.pft.addressbook.model.Groups;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +45,9 @@ public class ContactCreationTests extends TestBase {
        XStream xstream = new XStream();
        xstream.processAnnotations(ContactGroupData.class);
        List<ContactGroupData> contacts = (List<ContactGroupData>) xstream.fromXML(xml);
+       for (ContactGroupData contact : contacts) {
+         contact.groups = new HashSet<GroupData>();
+       }
        return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
      }
   }
@@ -63,6 +68,9 @@ public class ContactCreationTests extends TestBase {
       }
       Gson gson = new Gson();
       List<ContactGroupData> contacts = gson.fromJson(json, new TypeToken<List<ContactGroupData>>(){}.getType());  //List<GroupData>.class
+      for (ContactGroupData contact : contacts) {
+        contact.groups = new HashSet<GroupData>();
+      }
       return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
     }
   }
