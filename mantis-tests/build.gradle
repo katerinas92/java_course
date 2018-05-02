@@ -1,0 +1,33 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.testng:testng:6.14.2'
+    compile 'org.seleniumhq.selenium:selenium-java:3.10.0'
+    compile 'org.hamcrest:java-hamcrest:2.0.0.0'
+}
+
+test {
+    useTestNG {
+        // указываем, какой файл с тестовым набором нужно использовать;
+        // его можно запустить потом в командной строке с помощью команд:
+        // gradlew testGroups - если запускаем первично
+        // gradlew cleanTest testGroups - если хотим запустить повторно ранее успешно выполненные тесты
+        suites 'src/test/resources/testng.xml'
+    }
+    // чтобы передать имя браузера нужно в командной строке указать параметр gradlew -Pbrowser=firefox testGroups
+    if (project.hasProperty('browser')) {
+        systemProperty 'browser', "${browser}"
+    }
+    // передаем через параметр target имя файла, в котором лежат все конфигурационные настройки
+    if (project.hasProperty('target')) {
+        systemProperty 'target', "${target}"
+    }
+    // передаем через параметр verifyUI значение true or false для того, чтобы выполнялась или не выполнялась проверка множества групп через пользовательский интерфейс
+    if (project.hasProperty('verifyUI')) {
+        systemProperty 'verifyUI', "${verifyUI}"
+    }
+}
