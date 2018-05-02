@@ -7,6 +7,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
 import ru.stqa.pft.addressbook.model.Contacts;
+//import ru.stqa.pft.addressbook.model.Groups;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -69,6 +70,8 @@ public class ContactCreationTests extends TestBase {
   // передаем в тест имя провайдера, который будет подгружать данные из файлов
   @Test(dataProvider = "validContactsFromXml")
     public void testContactCreation(ContactGroupData contact) {
+        // получаем список всех групп из базы данных
+        // Groups groups = app.db().groups();
         // Формируем множество из контактов до создания нового
        Contacts before = app.db().contacts();
        // указываем относительный путь до файла с фото
@@ -89,6 +92,7 @@ public class ContactCreationTests extends TestBase {
     // метод для запуска проверки множеств контактов через пользовательский интерфейс
     verifyContactListInUI();
     }
+
     // тест для определения текущей рабочей директории и соответствия того, что файл существует
     @Test (enabled = false)
     public void testCurrentDir() {

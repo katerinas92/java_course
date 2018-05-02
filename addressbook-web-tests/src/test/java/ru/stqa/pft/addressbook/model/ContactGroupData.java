@@ -3,9 +3,10 @@ import com.google.gson.annotations.Expose;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 // Задаем названия для тэгов XML файла
 @XStreamAlias("contact")
@@ -53,9 +54,7 @@ public class ContactGroupData {
   @Type(type = "text")
   private String work;
   @Expose
-  // помечаем поле group transient - это значит, это поле не будет использоваться в выборке данных и сравнении
-  @Transient
-  private String group;
+  // помечаем поле allPhones аннотацией @Transient - это значит, это поле не будет использоваться в выборке данных и сравнении
   @Transient
   private String allPhones;
   @Transient
@@ -63,6 +62,11 @@ public class ContactGroupData {
   @Column(name = "photo")
   @Type(type = "text")
   private String photo;
+  // помечаем поле groups аннотацией @ManyToMany - т.к. один контакт, может быть связан с несколькими группами, а группа может содержать несколько контактов
+  @ManyToMany
+  @JoinTable(name = "address_in_groups",
+          joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+  public Set<GroupData> groups = new HashSet<GroupData>();
 
   public File getPhoto() {
     return new File(photo);
@@ -70,6 +74,11 @@ public class ContactGroupData {
 
   public ContactGroupData withPhoto(File photo) {
     this.photo = photo.getPath();
+    return this;
+  }
+
+  public ContactGroupData inGroup(GroupData group) {
+    groups.add(group);
     return this;
   }
 
@@ -146,11 +155,6 @@ public class ContactGroupData {
     return this;
   }
 
-  public ContactGroupData withGroup(String group) {
-    this.group = group;
-    return this;
-  }
-
   public int getId() { return id; }
 
   public String getFirstname() {
@@ -193,8 +197,8 @@ public class ContactGroupData {
     return work;
   }
 
-  public String getGroup() {
-    return group;
+  public Groups getGroups() {
+    return new Groups(groups);
   }
 
   @Override

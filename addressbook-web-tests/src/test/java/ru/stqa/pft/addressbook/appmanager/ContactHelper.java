@@ -49,8 +49,11 @@ public class ContactHelper extends HelperBase {
     //attach(By.name("photo"), contactData.getPhoto());
 
     if (creation) {
-      // выбор элемента из выпадающего списка
-      new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+      if (contactData.getGroups().size() > 0) {
+        Assert.assertTrue(contactData.getGroups().size() == 1);
+        // выбор элемента из выпадающего списка
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+      }
     } else {
       // проверка, что элемента быть не должно
       Assert.assertFalse(isElementPresent(By.name("new_group")));
@@ -153,7 +156,7 @@ public class ContactHelper extends HelperBase {
       String firstName = cells.get(2).getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       // создаем обект ContactGroupData и заполняем его значениями
-      ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName).withAddress(null).withEmail1(null).withHome(null).withMobile(null).withWork(null).withGroup("test1");
+      ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName).withAddress(null).withEmail1(null).withHome(null).withMobile(null).withWork(null);
       // добавляем созданный объект в список
       contacts.add(contact);
     }
@@ -184,7 +187,7 @@ public class ContactHelper extends HelperBase {
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
       // создаем обект ContactGroupData и заполняем его значениями
       ContactGroupData contact = new ContactGroupData().withId(id).withFirstname(firstName).withMiddlename(null).withLastname(lastName)
-              .withAddress(address).withAllEmails(allEmails).withAllPhones(allPhones).withGroup("test1");
+              .withAddress(address).withAllEmails(allEmails).withAllPhones(allPhones);
       // добавляем созданный объект в список
       contactCache.add(contact);
     }

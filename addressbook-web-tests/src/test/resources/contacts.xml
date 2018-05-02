@@ -7,7 +7,6 @@
     <home>22-33-44 0</home>
     <mobile>11-00-02 0</mobile>
     <work>77777777-8 0</work>
-    <group>test1</group>
   </contact>
   <contact>
     <firstname>Morozova 1</firstname>
@@ -17,6 +16,5 @@
     <home>22-33-44 1</home>
     <mobile>11-00-02 1</mobile>
     <work>77777777-8 1</work>
-    <group>test2</group>
   </contact>
 </list>
