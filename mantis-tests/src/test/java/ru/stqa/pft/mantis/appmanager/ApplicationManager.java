@@ -45,4 +45,12 @@ public class ApplicationManager {
     wd.quit();
   }
 
+  // Открываем сессию пользователю
+  public HttpSession newSession () {
+    return new HttpSession(this);
+  }
+
+  public String getProperty(String key) {
+    return properties.getProperty(key);
+  }
 }
