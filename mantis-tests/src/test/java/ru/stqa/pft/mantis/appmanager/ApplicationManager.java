@@ -20,6 +20,9 @@ public class ApplicationManager {
   private FtpHelper ftp;
   private MailHelper mailHelper;
   private JamesHelper jamesHelper;
+  private NavigationHelper navigationHelper;
+  private ManageHelper manageHelper;
+  private DbHelper dbHelper;
 
   // Создаем конструктор для определения типа браузера
   public ApplicationManager(String browser) {
@@ -91,4 +94,26 @@ public class ApplicationManager {
     }
     return jamesHelper;
   }
+
+  public NavigationHelper goTo() {
+    if (navigationHelper == null) {
+      navigationHelper = new NavigationHelper(this);
+    }
+    return navigationHelper;
+  }
+
+  public ManageHelper manage() {
+    if (manageHelper == null) {
+      manageHelper = new ManageHelper(this);
+    }
+    return manageHelper;
+  }
+
+  public DbHelper db() {
+    if (dbHelper == null) {
+      dbHelper = new DbHelper(this);
+    }
+    return dbHelper;
+  }
+
 }
