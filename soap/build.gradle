@@ -6,6 +6,8 @@ repositories {
 
 dependencies {
     compile 'org.testng:testng:6.14.2'
+    compile 'biz.futureware.mantis:mantis-axis-soap-client:1.2.19'
+
 }
 
 buildscript{

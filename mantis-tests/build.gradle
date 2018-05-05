@@ -17,6 +17,7 @@ dependencies {
     compile 'com.thoughtworks.xstream:xstream:1.4.8'
     compile 'com.google.code.gson:gson:2.8.2'
     compile 'mysql:mysql-connector-java:5.1.38'
+    compile 'biz.futureware.mantis:mantis-axis-soap-client:1.2.19'
 }
 
 test {

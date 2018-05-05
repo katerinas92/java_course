@@ -23,6 +23,7 @@ public class ApplicationManager {
   private NavigationHelper navigationHelper;
   private ManageHelper manageHelper;
   private DbHelper dbHelper;
+  private SoapHelper soapHelper;
 
   // Создаем конструктор для определения типа браузера
   public ApplicationManager(String browser) {
@@ -116,4 +117,10 @@ public class ApplicationManager {
     return dbHelper;
   }
 
+  public SoapHelper soap() {
+    if (soapHelper == null) {
+      soapHelper = new SoapHelper(this);
+    }
+    return soapHelper;
+  }
 }
