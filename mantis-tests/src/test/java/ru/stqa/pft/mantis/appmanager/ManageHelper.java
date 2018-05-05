@@ -9,7 +9,6 @@ public class ManageHelper extends HelperBase {
   }
 
   public void resetUserPassword(String username) {
-    //click(By.cssSelector("a[href='/mantisbt-1.2.19/manage_user_page.php']"));
     click(By.linkText("Manage Users"));
     waitLocator(By.name("username"));
     type(By.name("username"), username);
@@ -18,11 +17,12 @@ public class ManageHelper extends HelperBase {
     click(By.cssSelector("input[value='Reset Password']"));
   }
 
-  public void confirmNewPassword(String link, String password) {
+  public void confirmNewPassword(String link, String newPassword) {
     wd.get(link);
     waitLocator(By.name("password"));
-    type(By.name("password"), password);
-    type(By.name("password_confirm"), password);
-    click(By.cssSelector("button[type='submit']"));
+    type(By.name("password"), newPassword);
+    type(By.name("password_confirm"), newPassword);
+    waitLocator(By.cssSelector("input[value='Update User']"));
+    click(By.cssSelector("input[value='Update User']"));
   }
 }
