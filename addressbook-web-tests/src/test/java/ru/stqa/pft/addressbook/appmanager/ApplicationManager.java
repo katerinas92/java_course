@@ -58,7 +58,6 @@ public class ApplicationManager {
       wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
     }
 
-
     // указано имплицитное ожидание (implicitlyWait)
     wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
     wd.get(properties.getProperty("web.baseUrl"));
