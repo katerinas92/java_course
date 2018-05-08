@@ -25,7 +25,7 @@ public class TestBase {
   // передаем название браузера
   // параметр static значает, что app будет доступен для всех тестов, запускаемых одновременно в BeforeSuite
   protected static final ApplicationManager app
-          = new ApplicationManager(System.getProperty("browser", BrowserType.FIREFOX));
+          = new ApplicationManager(System.getProperty("browser", BrowserType.CHROME));
 
   @BeforeSuite
   public void setUp() throws Exception {
