@@ -31,7 +31,7 @@ public class GroupCreationTests extends TestBase {
     // list.add(new Object[] {new GroupData().withName("test1").withHeader("header1").withFooter("footer1")});
     // list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")});
     // list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")});
-    // Или считываем набор данных из csv файла
+    // считываем набор данных из файла
     try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.xml")))) {
       String xml = "";
       String line = reader.readLine();
@@ -63,7 +63,7 @@ public class GroupCreationTests extends TestBase {
     // list.add(new Object[] {new GroupData().withName("test1").withHeader("header1").withFooter("footer1")});
     // list.add(new Object[] {new GroupData().withName("test2").withHeader("header2").withFooter("footer2")});
     // list.add(new Object[] {new GroupData().withName("test3").withHeader("header3").withFooter("footer3")});
-    // Или считываем набор данных из csv файла
+    // считываем набор данных из файла
     try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/groups.json")))) {
       String json = "";
       String line = reader.readLine();
