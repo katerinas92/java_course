@@ -63,7 +63,7 @@ public class ContactGroupData {
   @Type(type = "text")
   private String photo;
   // помечаем поле groups аннотацией @ManyToMany - т.к. один контакт, может быть связан с несколькими группами, а группа может содержать несколько контактов
-  @ManyToMany
+  @ManyToMany (fetch = FetchType.EAGER)
   @JoinTable(name = "address_in_groups",
           joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
   public Set<GroupData> groups = new HashSet<GroupData>();
@@ -242,6 +242,7 @@ public class ContactGroupData {
             ", home='" + home + '\'' +
             ", mobile='" + mobile + '\'' +
             ", work='" + work + '\'' +
+            ", groups=" + groups +
             '}';
   }
 }

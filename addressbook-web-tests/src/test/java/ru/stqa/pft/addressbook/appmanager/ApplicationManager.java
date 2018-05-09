@@ -42,6 +42,7 @@ public class ApplicationManager {
 
     dbHelper = new DbHelper();
 
+    /*
     if ("".equals(properties.getProperty("selenium.server"))) {
       // запускаем тесты на локальной машине
       if (browser.equals(BrowserType.FIREFOX)) {
@@ -56,6 +57,14 @@ public class ApplicationManager {
       DesiredCapabilities capabilities = new DesiredCapabilities();
       capabilities.setBrowserName(browser);
       wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
+    }
+*/
+    if (browser.equals(BrowserType.FIREFOX)) {
+      wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
+    } else if (browser.equals(BrowserType.CHROME)) {
+      wd = new ChromeDriver();
+    } else if (browser.equals(BrowserType.IE)) {
+      wd = new InternetExplorerDriver();
     }
 
     // указано имплицитное ожидание (implicitlyWait)

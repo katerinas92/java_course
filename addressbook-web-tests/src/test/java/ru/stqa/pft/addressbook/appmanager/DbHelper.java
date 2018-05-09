@@ -43,4 +43,46 @@ public class DbHelper {
     return new Contacts(result);
   }
 
+  public ContactGroupData contactById(int id) {
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    List<ContactGroupData> result = session.createQuery("from ContactGroupData where id = " + id).list();
+    System.out.println(result);
+    session.getTransaction().commit();
+    session.close();
+    return result.get(0);
+  }
+
+  public Contacts contactsInGroupByName(String groupName) {
+    Contacts actualContactsInGroup = new Contacts(); //Сюда будем складывать контакты, которые существуют на данный момент и входят в требуемую группу
+
+    Contacts allContactsInGroup = groupByName(groupName).getContacts(); // Все контакты, которые в группе (существующие и уже удаленные из приложения)
+
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+
+    for (ContactGroupData contact : allContactsInGroup) {
+      // Проверка существует ли сейчас этот контакт
+      List<ContactGroupData> resultOfActualityContact = session.createQuery("from ContactData where id = '" + contact.getId()
+              + "' and deprecated = '0000-00-00'").list();
+      // Если существует, то добавим его
+      if (resultOfActualityContact.size() == 1) {
+        actualContactsInGroup.add(resultOfActualityContact.get(0));
+      }
+    }
+
+    session.getTransaction().commit();
+    session.close();
+
+    return actualContactsInGroup;
+  }
+
+  public GroupData groupByName(String groupName) {
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    List<GroupData> result = session.createQuery( "from GroupData where group_name = '" + groupName + "'" ).list();
+    session.getTransaction().commit();
+    session.close();
+    return result.get(0);
+  }
 }

@@ -7,6 +7,8 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactGroupData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.GroupData;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class ContactHelper extends HelperBase {
 
   // метод выполняющий возвращение на главную страницу после создания группы контактов
   public void returnToHomePage() {
-    click(By.linkText("home page"));
+    click(By.linkText("home"));
   }
 
   // метод выполняющий заполнение полей при создании нового контакта
@@ -235,5 +237,14 @@ public class ContactHelper extends HelperBase {
     // wd.findElement(By.xpath(String.format("//tr[.//input[value='%s']]/td[8]/a", id))).click();
     // поиск по атрибуту href и кликаем прямо по ссылке
     // wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
+  }
+
+  // метод для добавления контакта в группу
+  public void addToGroup(ContactGroupData contact, GroupData group) {
+    selectContactById(contact.getId());
+    new Select(wd.findElement(By.name("to_group"))).selectByValue(Integer.toString(group.getId()));
+    click(By.name("add"));
+    // Возвращаемся к списку всех контактов
+    returnToHomePage();
   }
 }

@@ -40,7 +40,7 @@ public class GroupData {
   @Type(type = "text")
   private String footer;
 
-  @ManyToMany(mappedBy = "groups") // это означает, что в парном классе ContactGroupData нужно найти атрибут groups и оттуда взять описание связей между таблицами и полями
+  @ManyToMany(mappedBy = "groups", fetch = FetchType.EAGER) // это означает, что в парном классе ContactGroupData нужно найти атрибут groups и оттуда взять описание связей между таблицами и полями
   private Set<ContactGroupData> contacts = new HashSet<ContactGroupData>();
 
   public int getId() {
