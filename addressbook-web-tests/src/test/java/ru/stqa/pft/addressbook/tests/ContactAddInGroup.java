@@ -38,7 +38,20 @@ public class ContactAddInGroup extends TestBase {
 
     ContactGroupData contact = selectContactToTest();
     GroupData group = selectGroupToTest(contact);
+
+    Groups contactGroupsBefore = app.db().contactById(contact.getId()).getGroups();
+    Contacts groupContactsBefore = app.db().contactsInGroupByName(group.getName());
+
     app.contact().addToGroup(contact, group);
+
+    Groups contactGroupsAfter = app.db().contactById(contact.getId()).getGroups();
+    Contacts groupContactsAfter = app.db().contactsInGroupByName(group.getName());
+
+    // Проверяем изменившиеся списки групп с контактами и контакты с группами на размер и состав данных
+    assertEquals(contactGroupsAfter.size(), contactGroupsBefore.size() + 1);
+    assertThat(contactGroupsAfter, equalTo(contactGroupsBefore.withAdded(app.db().groupByName(group.getName()))));
+    assertEquals(groupContactsAfter.size(), groupContactsBefore.size() + 1);
+    assertThat(groupContactsAfter, equalTo(groupContactsBefore.withAdded(app.db().contactById(contact.getId()))));
     }
 
     // метод, который выбирает контакт, который можно добавить в группу или создает новый в случае отсутствия подходящего контакта
