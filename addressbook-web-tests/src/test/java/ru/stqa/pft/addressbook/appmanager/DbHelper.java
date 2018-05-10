@@ -63,7 +63,7 @@ public class DbHelper {
 
     for (ContactGroupData contact : allContactsInGroup) {
       // Проверка существует ли сейчас этот контакт
-      List<ContactGroupData> resultOfActualityContact = session.createQuery("from ContactData where id = '" + contact.getId()
+      List<ContactGroupData> resultOfActualityContact = session.createQuery("from ContactGroupData where id = '" + contact.getId()
               + "' and deprecated = '0000-00-00'").list();
       // Если существует, то добавим его
       if (resultOfActualityContact.size() == 1) {

@@ -9,6 +9,7 @@ import ru.stqa.pft.addressbook.model.ContactGroupData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -245,6 +246,12 @@ public class ContactHelper extends HelperBase {
     new Select(wd.findElement(By.name("to_group"))).selectByValue(Integer.toString(group.getId()));
     click(By.name("add"));
     // Возвращаемся к списку всех контактов
+    returnToHomePage();
+  }
+
+  public void deleteContactFromGroup(ContactGroupData contact) {
+    selectContactById(contact.getId());
+    wd.findElement(By.name("remove")).click();
     returnToHomePage();
   }
 }

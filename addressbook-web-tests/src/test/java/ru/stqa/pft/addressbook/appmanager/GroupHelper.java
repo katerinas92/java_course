@@ -1,5 +1,7 @@
 package ru.stqa.pft.addressbook.appmanager;
 
+import org.hibernate.dialect.Dialect;
+import org.hibernate.sql.Select;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -179,5 +181,8 @@ public class GroupHelper extends HelperBase {
     }
     // возвращаем лист с группами
     return new Groups(groupCache);
+  }
+  public void groupSelect(GroupData group) {
+    new org.openqa.selenium.support.ui.Select(wd.findElement(By.name("group"))).selectByVisibleText(group.getName());
   }
 }
